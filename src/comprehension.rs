@@ -21,7 +21,6 @@
 /// ```
 #[macro_export]
 macro_rules! cvec {
-
     ($e:expr; $i:ident <- $iter:expr) => {{
         let mut v = Vec::new();
         for $i in $iter {
@@ -33,7 +32,7 @@ macro_rules! cvec {
     ($e:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
         let mut v = Vec::new();
         for $i in $iter {
-            if $cond{
+            if $cond {
                 v.push($e.clone());
             }
         }
@@ -51,7 +50,7 @@ macro_rules! cvec {
     ($e:expr; for $i:ident in $iter:expr, if $cond:expr) => {{
         let mut v = Vec::new();
         for $i in $iter {
-            if $cond{
+            if $cond {
                 v.push($e.clone());
             }
         }
@@ -68,9 +67,9 @@ macro_rules! cvec {
 ///
 /// # Examples:
 /// ```
-/// use sugars::cvec;
+/// use sugars::cmap;
 /// fn main() {
-///     let a = 10
+///     let a = 10;
 ///     // Haskell-like
 ///     let x = cmap!{x => x+a; x <- 1..10};
 ///     let y = cmap!{x => x+a; x <- 1..10, if x%2 == 0};
@@ -120,7 +119,7 @@ macro_rules! cmap {
             }
         }
         map
-    }}
+    }};
 }
 
 /// Macro to `HashSet` collection comprehensions
@@ -132,9 +131,8 @@ macro_rules! cmap {
 ///
 /// # Examples:
 /// ```
-/// use sugars::cvec;
+/// use sugars::cset;
 /// fn main() {
-///     let a = 10
 ///     // Haskell-like
 ///     let x = cset!{x; x <- 1..10};
 ///     let y = cset!{x; x <- 1..10, if x%2 == 0};
@@ -184,7 +182,7 @@ macro_rules! cset {
             }
         }
         set
-    }}
+    }};
 }
 
 #[cfg(test)]
@@ -229,9 +227,9 @@ mod tests {
         let a = 10;
         let mut expected = HashMap::new();
         for i in 1..10 {
-            expected.insert(i, i+a);
+            expected.insert(i, i + a);
         }
-        let test = cmap!{x => x+a; x <- 1..10};
+        let test = cmap! {x => x+a; x <- 1..10};
 
         assert_eq!(expected, test);
     }
@@ -241,11 +239,11 @@ mod tests {
         let a = 10;
         let mut expected = HashMap::new();
         for i in 1..10 {
-            if i % 2 == 0{
-                expected.insert(i, i+a);
+            if i % 2 == 0 {
+                expected.insert(i, i + a);
             }
         }
-        let test = cmap!{x => x+a; x <- 1..10, if x%2==0};
+        let test = cmap! {x => x+a; x <- 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -255,9 +253,9 @@ mod tests {
         let a = 10;
         let mut expected = HashMap::new();
         for i in 1..10 {
-            expected.insert(i, i+a);
+            expected.insert(i, i + a);
         }
-        let test = cmap!{x => x+a; for x in 1..10};
+        let test = cmap! {x => x+a; for x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -267,11 +265,11 @@ mod tests {
         let a = 10;
         let mut expected = HashMap::new();
         for i in 1..10 {
-            if i % 2 == 0{
-                expected.insert(i, i+a);
+            if i % 2 == 0 {
+                expected.insert(i, i + a);
             }
         }
-        let test = cmap!{x => x+a; for x in 1..10, if x%2==0};
+        let test = cmap! {x => x+a; for x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -282,7 +280,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i);
         }
-        let test = cset!{x; x <- 1..10};
+        let test = cset! {x; x <- 1..10};
 
         assert_eq!(expected, test);
     }
@@ -291,11 +289,11 @@ mod tests {
     fn cset_haskell_with_conditional() {
         let mut expected = HashSet::new();
         for i in 1..10 {
-            if i % 2 == 0{
+            if i % 2 == 0 {
                 expected.insert(i);
             }
         }
-        let test = cset!{x; x <- 1..10, if x%2==0};
+        let test = cset! {x; x <- 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -306,7 +304,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i);
         }
-        let test = cset!{x; for x in 1..10};
+        let test = cset! {x; for x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -315,11 +313,11 @@ mod tests {
     fn cset_python_with_conditional() {
         let mut expected = HashSet::new();
         for i in 1..10 {
-            if i % 2 == 0{
+            if i % 2 == 0 {
                 expected.insert(i);
             }
         }
-        let test = cset!{x; for x in 1..10, if x%2==0};
+        let test = cset! {x; for x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
