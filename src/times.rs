@@ -137,7 +137,7 @@ macro_rules! sleep {
 ///
 /// # Example
 /// ```rust
-/// use sugars::time;
+/// use sugars::{time, dur};
 /// # fn main() {
 /// let d = dur!(10 sec);
 /// // Sleeps for 10 seconds

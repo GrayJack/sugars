@@ -3,7 +3,6 @@
 [![Documentation]()]()
 [![Build Status](https://travis-ci.com/GrayJack/sugars.svg?token=shFam3KGN8B2PbDYxY4y&branch=master)](https://travis-ci.com/GrayJack/sugars)
 [![License](https://img.shields.io/github/license/GrayJack/sugars.svg)](./LICENSE)
-[![dependency status]()]()
 [![Hits-of-Code](https://hitsofcode.com/github/GrayJack/sugars)](https://hitsofcode.com/view/github/GrayJack/sugars)
 
 This crate provides a collection of macros to make some tasks easier to use
