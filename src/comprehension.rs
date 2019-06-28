@@ -9,15 +9,16 @@
 /// # Examples:
 /// ```
 /// use sugars::cvec;
-/// fn main() {
-///     // Haskell-like
-///     let x = cvec![x; x <- 1..10];
-///     let y = cvec![x; x <- 1..10, if x%2 == 0];
 ///
-///     // Python-like
-///     let w = cvec![x; for x in 1..10];
-///     let z = cvec![x; for x in 1..10, if x%2 == 0];
-/// }
+/// # fn main() {
+/// // Haskell-like
+/// let x = cvec![x; x <- 1..10];
+/// let y = cvec![x; x <- 1..10, if x%2 == 0];
+///
+/// // Python-like
+/// let w = cvec![x; for x in 1..10];
+/// let z = cvec![x; for x in 1..10, if x%2 == 0];
+/// # }
 /// ```
 #[macro_export]
 macro_rules! cvec {
@@ -66,18 +67,19 @@ macro_rules! cvec {
 /// pattern support only works with python syntax
 ///
 /// # Examples:
-/// ```
+/// ```rust
 /// use sugars::cmap;
-/// fn main() {
-///     let a = 10;
-///     // Haskell-like
-///     let x = cmap!{x => x+a; x <- 1..10};
-///     let y = cmap!{x => x+a; x <- 1..10, if x%2 == 0};
 ///
-///     // Python-like
-///     let w = cmap!{x => x+a; for x in 1..10};
-///     let z = cmap!{x => x+a; for x in 1..10, if x%2 == 0};
-/// }
+/// # fn main() {
+/// let a = 10;
+/// // Haskell-like
+/// let x = cmap!{x => x+a; x <- 1..10};
+/// let y = cmap!{x => x+a; x <- 1..10, if x%2 == 0};
+///
+/// // Python-like
+/// let w = cmap!{x => x+a; for x in 1..10};
+/// let z = cmap!{x => x+a; for x in 1..10, if x%2 == 0};
+/// # }
 /// ```
 #[macro_export]
 macro_rules! cmap {
@@ -130,17 +132,18 @@ macro_rules! cmap {
 /// pattern support only works with python syntax
 ///
 /// # Examples:
-/// ```
+/// ```rust
 /// use sugars::cset;
-/// fn main() {
-///     // Haskell-like
-///     let x = cset!{x; x <- 1..10};
-///     let y = cset!{x; x <- 1..10, if x%2 == 0};
 ///
-///     // Python-like
-///     let w = cset!{x; for x in 1..10};
-///     let z = cset!{x; for x in 1..10, if x%2 == 0};
-/// }
+/// # fn main() {
+/// // Haskell-like
+/// let x = cset!{x; x <- 1..10};
+/// let y = cset!{x; x <- 1..10, if x%2 == 0};
+///
+/// // Python-like
+/// let w = cset!{x; for x in 1..10};
+/// let z = cset!{x; for x in 1..10, if x%2 == 0};
+/// # }
 /// ```
 #[macro_export]
 macro_rules! cset {

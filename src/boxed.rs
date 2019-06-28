@@ -5,9 +5,9 @@
 /// # Example
 /// ```
 /// use sugars::boxed;
-/// fn main() {
-///     assert_eq!(Box::new(10), boxed!(10));
-/// }
+/// # fn main() {
+/// assert_eq!(Box::new(10), boxed!(10));
+/// # }
 #[macro_export]
 macro_rules! boxed {
     ($e:expr) => (

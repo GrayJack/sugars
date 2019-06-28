@@ -12,11 +12,12 @@
 /// # Examples
 /// ```rust
 /// use sugars::dur;
-/// fn main() {
-///     let d = dur!(10 sec);
-///     // Sleeps for 10 seconds
-///     std::thread::sleep(d);
-/// }
+///
+/// # fn main() {
+/// let d = dur!(10 sec);
+/// // Sleeps for 10 seconds
+/// std::thread::sleep(d);
+/// # }
 /// ```
 #[macro_export]
 macro_rules! dur {
@@ -71,10 +72,10 @@ macro_rules! dur {
 /// # Examples
 /// ```rust
 /// use sugars::sleep;
-/// fn main() {
-///     // Thread sleeps for 10 seconds
-///     sleep!(10 sec);
-/// }
+/// # fn main() {
+/// // Thread sleeps for 10 seconds
+/// sleep!(10 sec);
+/// # }
 /// ```
 #[macro_export]
 macro_rules! sleep {
@@ -137,11 +138,11 @@ macro_rules! sleep {
 /// # Example
 /// ```rust
 /// use sugars::time;
-/// fn main() {
-///     let d = dur!(10 sec);
-///     // Sleeps for 10 seconds
-///     time!(std::thread::sleep(d)); // Should print 10.000 at least
-/// }
+/// # fn main() {
+/// let d = dur!(10 sec);
+/// // Sleeps for 10 seconds
+/// time!(std::thread::sleep(d)); // Should print 10.000 at least
+/// # }
 /// ```
 #[cfg(feature = "nightly")]
 #[macro_export]
