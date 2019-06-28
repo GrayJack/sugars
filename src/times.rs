@@ -145,6 +145,7 @@ macro_rules! sleep {
 /// # }
 /// ```
 #[cfg(feature = "nightly")]
+#[cfg(unstable)]
 #[macro_export]
 macro_rules! time {
     ($e:expr) => ({
