@@ -6,7 +6,7 @@ rust:
 matrix:
   allow_failures:
     - rust: nightly
-  fast_finish: true
+  # fast_finish: true
 cache: cargo
 before_script:
   - |
@@ -23,4 +23,4 @@ script:
     travis-cargo --only stable test -- --verbose &&
     travis-cargo --skip nightly test -- --verbose &&
     travis-cargo --only nightly test -- --verbose --features "nightly" &&
-#    travis-cargo --only nightly bench -- --no-run
+    travis-cargo --only nightly bench -- --no-run
