@@ -2,6 +2,13 @@
 name = "sugars"
 version = "0.1.0"
 authors = ["GrayJack <gr41.j4ck@gmail.com>"]
+readme = "README.md"
+license-file = "LICENSE"
+repository = "https://github.com/GrayJack/sugars"
+documentation = "https://docs.rs/sugars"
+homepage = "https://crates.io/crates/sugars"
+description = "A collection of macros in Rust to make some tasks easier to use"
+exclude = ["/.travis.yml"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
