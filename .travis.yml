@@ -1,0 +1,26 @@
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+cache: cargo
+before_script:
+  - |
+    pip install git+git://github.com/kbknapp/travis-cargo.git --user &&
+    export PATH=$HOME/.local/bin:$PATH
+  - |
+    if [[ "$TRAVIS_RUST_VERSION" == "1.13.0" ]]; then
+        echo "Old Rust detected, removing version-sync dependency"
+        sed -i "/^version-sync =/d" Cargo.toml
+        rm "tests/version-numbers.rs"
+    fi
+script:
+  - |
+    travis-cargo --only stable test -- --verbose --no-default-features &&
+    travis-cargo --skip nightly test -- --verbose --no-default-features &&
+    travis-cargo --only nightly test -- --verbose --features "nightly" &&
+    travis-cargo --only nightly bench -- --no-run
