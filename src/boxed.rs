@@ -17,7 +17,6 @@ macro_rules! boxed {
 
 #[cfg(test)]
 mod tests {
-    // use super::*;
 
     #[test]
     fn boxed() {

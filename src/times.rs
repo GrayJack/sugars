@@ -161,7 +161,6 @@ macro_rules! time {
 #[cfg(test)]
 mod tests {
     use std::time::Duration;
-    // use super::*;
 
     #[test]
     fn dur_literal_min() {

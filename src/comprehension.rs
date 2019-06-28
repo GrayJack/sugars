@@ -188,7 +188,6 @@ macro_rules! cset {
 #[cfg(test)]
 mod tests {
     use std::collections::{HashMap, HashSet};
-    // use crate::comprehension::*;
 
     #[test]
     fn cvec_haskell_no_conditional() {
