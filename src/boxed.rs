@@ -1,6 +1,5 @@
 //! A module related to the Box smart pointer
 
-
 /// A simple macro to make a new Box value.
 ///
 /// # Example
@@ -18,10 +17,10 @@ macro_rules! boxed {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    // use super::*;
 
     #[test]
-    fn box() {
+    fn boxed() {
         assert_eq!(Box::new(10), boxed!(10));
         assert_eq!(Box::new(Some("String")), boxed!(Some("String")));
     }
