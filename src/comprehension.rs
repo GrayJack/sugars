@@ -4,7 +4,7 @@
 ///
 /// Supports 2 types of grammars: Haskell-like and Python-like
 ///
-/// **Limitations:** Only 2 nested comprehensions
+/// **Limitations:** Only 1 nested comprehensions
 ///
 /// # Examples:
 /// ```
@@ -23,39 +23,19 @@
 #[macro_export]
 macro_rules! cvec {
     ($e:expr; $i:ident <- $iter:expr) => {{
-        let mut v = Vec::new();
-        for $i in $iter {
-            v.push($e.clone());
-        }
-        v
+        $iter.map(|$i| $e).collect::<Vec<_>>()
     }};
 
     ($e:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
-        let mut v = Vec::new();
-        for $i in $iter {
-            if $cond {
-                v.push($e.clone());
-            }
-        }
-        v
+        $iter.filter(|$i| $cond).map(|$i| $e).collect::<Vec<_>>()
     }};
 
     ($e:expr; for $i:ident in $iter:expr) => {{
-        let mut v = Vec::new();
-        for $i in $iter {
-            v.push($e.clone());
-        }
-        v
+        $iter.map(|$i| $e).collect::<Vec<_>>()
     }};
 
     ($e:expr; for $i:ident in $iter:expr, if $cond:expr) => {{
-        let mut v = Vec::new();
-        for $i in $iter {
-            if $cond {
-                v.push($e.clone());
-            }
-        }
-        v
+        $iter.filter(|$i| $cond).map(|$i| $e).collect::<Vec<_>>()
     }};
 }
 

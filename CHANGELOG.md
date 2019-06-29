@@ -1,6 +1,9 @@
 # Changes
 
-## Unreleased - master
+## Unreleased ~ master
+Improve performance of `cvec` macro
+
+## 0.1.0
 Add collections macro `hmap`, `hset`, `btmap`, `btset`
 Add times macro `time`
 Add times macro `sleep`
