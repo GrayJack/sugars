@@ -65,42 +65,22 @@ macro_rules! cvec {
 macro_rules! cmap {
     ($key:expr => $value:expr; $i:ident <- $iter:expr) => {{
         use std::collections::HashMap;
-        let mut map = HashMap::new();
-        for $i in $iter {
-            map.insert($key, $value);
-        }
-        map
+        $iter.map(|$i| ($key, $value)).collect::<HashMap<_, _>>()
     }};
 
     ($key:expr => $value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
         use std::collections::HashMap;
-        let mut map = HashMap::new();
-        for $i in $iter {
-            if $cond {
-                map.insert($key, $value);
-            }
-        }
-        map
+        $iter.filter(|$i| $cond).map(|$i| ($key, $value)).collect::<HashMap<_,_>>()
     }};
 
     ($key:expr => $value:expr; for $p:pat in $iter:expr) => {{
         use std::collections::HashMap;
-        let mut map = HashMap::new();
-        for $p in $iter {
-            map.insert($key, $value);
-        }
-        map
+        $iter.map(|$p| ($key, $value)).collect::<HashMap<_, _>>()
     }};
 
     ($key:expr => $value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
         use std::collections::HashMap;
-        let mut map = HashMap::new();
-        for $p in $iter {
-            if $cond {
-                map.insert($key, $value);
-            }
-        }
-        map
+        $iter.filter(|$p| $cond).map(|$p| ($key, $value)).collect::<HashMap<_,_>>()
     }};
 }
 

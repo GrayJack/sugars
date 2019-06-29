@@ -1,7 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
-Improve performance of `cvec` macro
+Improve of `cmap` macro using `Iterators` methods (doesn't bring a lot of performance improvements, but the code is cleaner)
+Improve performance of `cvec` macro using `Iterators` methods
 
 ## 0.1.0
 Add collections macro `hmap`, `hset`, `btmap`, `btset`
