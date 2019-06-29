@@ -4,7 +4,7 @@
 ///
 /// Supports 2 types of grammars: Haskell-like and Python-like
 ///
-/// **Limitations:** Only 1 nested comprehensions
+/// **Limitations:** Only 2 nested comprehensions
 ///
 /// # Examples:
 /// ```
@@ -36,6 +36,52 @@ macro_rules! cvec {
 
     ($e:expr; for $i:ident in $iter:expr, if $cond:expr) => {{
         $iter.filter(|$i| $cond).map(|$i| $e).collect::<Vec<_>>()
+    }};
+
+    // 2 nested (Iterative since my test show up that in this case iterative had best performance
+    // and less headache about iteration and lifetimes)
+    ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr) => {{
+        let mut v = Vec::new();
+        for $i2 in $iter2 {
+            for $i1 in $iter1 {
+                v.push($e);
+            }
+        }
+        v
+    }};
+
+    ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr, if $cond:expr) => {{
+        let mut v = Vec::new();
+        for $i2 in $iter2 {
+            for $i1 in $iter1 {
+                if $cond {
+                    v.push($e);
+                }
+            }
+        }
+        v
+    }};
+
+    ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr) => {{
+        let mut v = Vec::new();
+        for $i2 in $iter2 {
+            for $i1 in $iter1 {
+                v.push($e);
+            }
+        }
+        v
+    }};
+
+    ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr, if $cond:expr) => {{
+        let mut v = Vec::new();
+        for $i2 in $iter2 {
+            for $i1 in $iter1 {
+                if $cond {
+                    v.push($e);
+                }
+            }
+        }
+        v
     }};
 }
 
@@ -133,7 +179,7 @@ mod tests {
     use std::collections::{HashMap, HashSet};
 
     #[test]
-    fn cvec_haskell_no_conditional() {
+    fn cvec_haskell_basic_no_conditional() {
         let expected = vec![2, 4, 6, 8];
         let test = cvec![x*2; x <- 1..5];
 
@@ -141,7 +187,7 @@ mod tests {
     }
 
     #[test]
-    fn cvec_haskell_with_conditional() {
+    fn cvec_haskell_basic_with_conditional() {
         let expected = vec![0, 2, 4, 6, 8];
         let test = cvec![x; x <- 0..10, if x%2 == 0];
 
@@ -149,7 +195,25 @@ mod tests {
     }
 
     #[test]
-    fn cvec_python_no_conditional() {
+    fn cvec_haskell_2_nested_no_conditional() {
+        let expected = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
+        let test = cvec![x; x <- y, y <- nested];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_haskell_2_nested_with_conditional() {
+        let expected = vec![2, 4, 6, 8];
+        let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
+        let test = cvec![x; x <- y, y <- nested, if x % 2 == 0];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_python_basic_no_conditional() {
         let expected = vec![2, 4, 6, 8];
         let test = cvec![x*2; for x in 1..5];
 
@@ -157,9 +221,27 @@ mod tests {
     }
 
     #[test]
-    fn cvec_python_with_conditional() {
+    fn cvec_python_basic_with_conditional() {
         let expected = vec![0, 2, 4, 6, 8];
         let test = cvec![x; for x in 0..10, if x%2 == 0];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_python_2_nested_no_conditional() {
+        let expected = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
+        let test = cvec![x; for x in y, for y in nested];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_python_2_nested_with_conditional() {
+        let expected = vec![2, 4, 6, 8];
+        let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
+        let test = cvec![x; for x in y, for y in nested, if x % 2 == 0];
 
         assert_eq!(expected, test);
     }
