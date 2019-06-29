@@ -153,7 +153,7 @@ macro_rules! time {
         let time = Instant::now();
         match $e {
             tmp => {
-                println!("{} seconds", time.elapsed().as_secs_f64());
+                eprintln!("{:.6} seconds", time.elapsed().as_secs_f64());
                 tmp
             }
         }
