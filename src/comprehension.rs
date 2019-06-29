@@ -109,42 +109,22 @@ macro_rules! cmap {
 macro_rules! cset {
     ($value:expr; $i:ident <- $iter:expr) => {{
         use std::collections::HashSet;
-        let mut set = HashSet::new();
-        for $i in $iter {
-            set.insert($value);
-        }
-        set
+        $iter.map(|$i| $value).collect::<HashSet<_>>()
     }};
 
     ($value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
         use std::collections::HashSet;
-        let mut set = HashSet::new();
-        for $i in $iter {
-            if $cond {
-                set.insert($value);
-            }
-        }
-        set
+        $iter.filter(|$i| $cond).map(|$i| $value).collect::<HashSet<_>>()
     }};
 
     ($value:expr; for $p:pat in $iter:expr) => {{
         use std::collections::HashSet;
-        let mut set = HashSet::new();
-        for $p in $iter {
-            set.insert($value);
-        }
-        set
+        $iter.map(|$p| $value).collect::<HashSet<_>>()
     }};
 
     ($value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
         use std::collections::HashSet;
-        let mut set = HashSet::new();
-        for $p in $iter {
-            if $cond {
-                set.insert($value);
-            }
-        }
-        set
+        $iter.filter(|$p| $cond).map(|$p| $value).collect::<HashSet<_>>()
     }};
 }
 
