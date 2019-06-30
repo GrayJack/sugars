@@ -4,7 +4,7 @@
 ///
 /// Supports 2 types of grammars: Haskell-like and Python-like
 ///
-/// **Limitations:** Only 2 nested comprehensions
+/// **Limitations:** Only 3 nested comprehensions
 ///
 /// # Examples:
 /// ```
@@ -78,6 +78,58 @@ macro_rules! cvec {
             for $i1 in $iter1 {
                 if $cond {
                     v.push($e);
+                }
+            }
+        }
+        v
+    }};
+
+    ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr, $i3:ident <- $iter3:expr) => {{
+        let mut v = Vec::new();
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
+                for $i3 in $iter3 {
+                    v.push($e);
+                }
+            }
+        }
+        v
+    }};
+
+    ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr, $i3:ident <- $iter3:expr, if $cond:expr) => {{
+        let mut v = Vec::new();
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
+                for $i3 in $iter3 {
+                    if $cond {
+                        v.push($e);
+                    }
+                }
+            }
+        }
+        v
+    }};
+
+    ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr, for $i3:ident in $iter3:expr) => {{
+        let mut v = Vec::new();
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
+                for $i3 in $iter3 {
+                    v.push($e);
+                }
+            }
+        }
+        v
+    }};
+
+    ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr, for $i3:ident in $iter3:expr, if $cond:expr) => {{
+        let mut v = Vec::new();
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
+                for $i3 in $iter3 {
+                    if $cond {
+                        v.push($e);
+                    }
                 }
             }
         }
@@ -213,6 +265,24 @@ mod tests {
     }
 
     #[test]
+    fn cvec_haskell_3_nested_no_conditional() {
+        let expected = vec![(1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2), (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4), (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4), (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4)];
+        let n: i32 = 4;
+        let test = cvec![(x,y, z); x <- 1..=n, y <- x..=n, z <- y..=n];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_haskell_3_nested_with_conditional() {
+        let expected = vec![(3, 4, 5), (6, 8, 10)];
+        let n: i32 = 10;
+        let test = cvec![(x, y, z); x <- 1..=n, y <- x..=n, z <- y..=n, if x.pow(2) + y.pow(2) == z.pow(2)];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
     fn cvec_python_basic_no_conditional() {
         let expected = vec![2, 4, 6, 8];
         let test = cvec![x*2; for x in 1..5];
@@ -242,6 +312,24 @@ mod tests {
         let expected = vec![2, 4, 6, 8];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
         let test = cvec![x; for x in y, for y in nested, if x % 2 == 0];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_python_3_nested_no_conditional() {
+        let expected = vec![(1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2), (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4), (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4), (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4)];
+        let n: i32 = 4;
+        let test = cvec![(x, y, z); for x in 1..=n, for y in x..=n, for z in y..=n];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cvec_python_3_nested_with_conditional() {
+        let expected = vec![(3, 4, 5), (6, 8, 10)];
+        let n: i32 = 10;
+        let test = cvec![(x,y, z); for x in 1..=n, for y in x..=n, for z in y..=n, if x.pow(2) + y.pow(2) == z.pow(2)];
 
         assert_eq!(expected, test);
     }
