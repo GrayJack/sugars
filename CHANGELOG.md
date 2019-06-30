@@ -1,7 +1,9 @@
 # Changes
 
 ## Unreleased ~ master
-Implement 3 nested `cvec` 
+
+## 0.2.0
+Implement 3 nested `cvec`
 Implement 2 nested `cvec`
 Improve of `cset` macro using `Iterators` methods (doesn't bring a lot of performance improvements, but the code is cleaner)
 Macro `time` now prints to stderr and format the time to 6 digits after the dot
