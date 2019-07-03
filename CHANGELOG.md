@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master
+Add a new macro `hash` that gives back the hash of passed expression (of course, as long the type implements `Hash` trait)
 
 ## 0.2.0
 Implement 3 nested `cvec`
