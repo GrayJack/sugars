@@ -2,8 +2,8 @@
 
 #![cfg_attr(feature = "nightly", feature(duration_float))]
 
-mod boxed;
 mod collections;
 mod comprehension;
 mod hash;
+mod pointer;
 mod times;

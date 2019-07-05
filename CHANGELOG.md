@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
+Add a number of macros to create smart pointers: `rc!`, `refcell!`, `cow!`, `arc!`, `mutex!`
+Move the boxed module to pointers, related to smart pointer
 Add a new macro `hash` that gives back the hash of passed expression (of course, as long the type implements `Hash` trait)
 
 ## 0.2.0
