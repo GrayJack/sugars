@@ -21,44 +21,43 @@
 /// ```
 #[macro_export]
 macro_rules! dur {
-    ($e:literal min) => ({
+    ($e:literal min) => {{
         let min2sec = $e * 60;
         std::time::Duration::from_secs(min2sec)
-    });
-    ($i:ident min) => ({
+    }};
+    ($i:ident min) => {{
         let min2sec = $i * 60;
         std::time::Duration::from_secs(min2sec)
-    });
+    }};
 
-    ($e:literal sec) => (
+    ($e:literal sec) => {
         std::time::Duration::from_secs($e)
-    );
-    ($i:ident sec) => (
+    };
+    ($i:ident sec) => {
         std::time::Duration::from_secs($i)
-    );
+    };
 
-    ($e:literal nano) => (
+    ($e:literal nano) => {
         std::time::Duration::from_nanos($e)
-    );
-    ($i:ident nano) => (
+    };
+    ($i:ident nano) => {
         std::time::Duration::from_nanos($i)
-    );
+    };
 
-    ($e:literal micro) => (
+    ($e:literal micro) => {
         std::time::Duration::from_micros($e)
-    );
-    ($i:ident micro) => (
+    };
+    ($i:ident micro) => {
         std::time::Duration::from_micros($i)
-    );
+    };
 
-    ($e:literal milli) => (
+    ($e:literal milli) => {
         std::time::Duration::from_millis($e)
-    );
-    ($i:ident milli) => (
+    };
+    ($i:ident milli) => {
         std::time::Duration::from_millis($i)
-    );
+    };
 }
-
 
 /// Makes a thread sleep a amount following a time pattern
 ///
@@ -79,52 +78,52 @@ macro_rules! dur {
 /// ```
 #[macro_export]
 macro_rules! sleep {
-    ($e:literal min) => ({
+    ($e:literal min) => {{
         let min2sec = $e * 60;
         let dur = std::time::Duration::from_secs(min2sec);
         std::thread::sleep(dur);
-    });
-    ($i:ident min) => ({
+    }};
+    ($i:ident min) => {{
         let min2sec = $i * 60;
         let dur = std::time::Duration::from_secs(min2sec);
         std::thread::sleep(dur);
-    });
+    }};
 
-    ($e:literal sec) => ({
+    ($e:literal sec) => {{
         let dur = std::time::Duration::from_secs($e);
         std::thread::sleep(dur);
-    });
-    ($i:ident sec) => ({
+    }};
+    ($i:ident sec) => {{
         let dur = std::time::Duration::from_secs($i);
         std::thread::sleep(dur);
-    });
+    }};
 
-    ($e:literal nano) => ({
+    ($e:literal nano) => {{
         let dur = std::time::Duration::from_nanos($e);
         std::thread::sleep(dur);
-    });
-    ($i:ident nano) => ({
+    }};
+    ($i:ident nano) => {{
         let dur = std::time::Duration::from_nanos($i);
         std::thread::sleep(dur);
-    });
+    }};
 
-    ($e:literal micro) => ({
+    ($e:literal micro) => {{
         let dur = std::time::Duration::from_micros($e);
         std::thread::sleep(dur);
-    });
-    ($i:ident micro) => ({
+    }};
+    ($i:ident micro) => {{
         let dur = std::time::Duration::from_micros($i);
         std::thread::sleep(dur);
-    });
+    }};
 
-    ($e:literal milli) => ({
+    ($e:literal milli) => {{
         let dur = std::time::Duration::from_millis($e);
         std::thread::sleep(dur);
-    });
-    ($i:ident milli) => ({
+    }};
+    ($i:ident milli) => {{
         let dur = std::time::Duration::from_millis($i);
         std::thread::sleep(dur);
-    });
+    }};
 }
 
 /// Print out the time it took to execute a given expression in seconds.
@@ -148,7 +147,7 @@ macro_rules! sleep {
 #[cfg(feature = "nightly")]
 #[macro_export]
 macro_rules! time {
-    ($e:expr) => ({
+    ($e:expr) => {{
         use std::time::Instant;
         let time = Instant::now();
         match $e {
@@ -157,7 +156,7 @@ macro_rules! time {
                 tmp
             }
         }
-    });
+    }};
 }
 
 #[cfg(test)]
@@ -166,7 +165,7 @@ mod tests {
 
     #[test]
     fn dur_literal_min() {
-        let expected = Duration::from_secs(10*60);
+        let expected = Duration::from_secs(10 * 60);
         let test = dur!(10 min);
 
         assert_eq!(expected, test);
@@ -174,7 +173,7 @@ mod tests {
 
     #[test]
     fn dur_identifier_min() {
-        let expected = Duration::from_secs(10*60);
+        let expected = Duration::from_secs(10 * 60);
         let x = 10;
         let test = dur!(x min);
 

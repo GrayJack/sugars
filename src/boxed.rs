@@ -10,9 +10,9 @@
 /// # }
 #[macro_export]
 macro_rules! boxed {
-    ($e:expr) => (
+    ($e:expr) => {
         Box::new($e)
-    );
+    };
 }
 
 #[cfg(test)]

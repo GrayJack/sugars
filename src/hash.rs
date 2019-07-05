@@ -17,21 +17,23 @@
 /// ```
 #[macro_export]
 macro_rules! hash {
-    ($e:expr) => ({
-        use std::{hash::{Hash, Hasher}, collections::hash_map::DefaultHasher};
+    ($e:expr) => {{
+        use std::{
+            collections::hash_map::DefaultHasher,
+            hash::{Hash, Hasher},
+        };
         let mut hasher = DefaultHasher::new();
         $e.hash(&mut hasher);
         hasher.finish()
-    });
+    }};
 
-    ($e:expr, $hasher:expr) => ({
-        use std::{hash::{Hash, Hasher}};
+    ($e:expr, $hasher:expr) => {{
+        use std::hash::{Hash, Hasher};
         let mut hasher = $hasher;
         $e.hash(&mut hasher);
         hasher.finish()
-    })
+    }};
 }
-
 
 #[cfg(test)]
 mod tests {

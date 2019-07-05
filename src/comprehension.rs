@@ -168,7 +168,10 @@ macro_rules! cmap {
 
     ($key:expr => $value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
         use std::collections::HashMap;
-        $iter.filter(|$i| $cond).map(|$i| ($key, $value)).collect::<HashMap<_,_>>()
+        $iter
+            .filter(|$i| $cond)
+            .map(|$i| ($key, $value))
+            .collect::<HashMap<_, _>>()
     }};
 
     ($key:expr => $value:expr; for $p:pat in $iter:expr) => {{
@@ -178,7 +181,10 @@ macro_rules! cmap {
 
     ($key:expr => $value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
         use std::collections::HashMap;
-        $iter.filter(|$p| $cond).map(|$p| ($key, $value)).collect::<HashMap<_,_>>()
+        $iter
+            .filter(|$p| $cond)
+            .map(|$p| ($key, $value))
+            .collect::<HashMap<_, _>>()
     }};
 }
 
@@ -212,7 +218,10 @@ macro_rules! cset {
 
     ($value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
         use std::collections::HashSet;
-        $iter.filter(|$i| $cond).map(|$i| $value).collect::<HashSet<_>>()
+        $iter
+            .filter(|$i| $cond)
+            .map(|$i| $value)
+            .collect::<HashSet<_>>()
     }};
 
     ($value:expr; for $p:pat in $iter:expr) => {{
@@ -222,7 +231,10 @@ macro_rules! cset {
 
     ($value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
         use std::collections::HashSet;
-        $iter.filter(|$p| $cond).map(|$p| $value).collect::<HashSet<_>>()
+        $iter
+            .filter(|$p| $cond)
+            .map(|$p| $value)
+            .collect::<HashSet<_>>()
     }};
 }
 
@@ -266,7 +278,12 @@ mod tests {
 
     #[test]
     fn cvec_haskell_3_nested_no_conditional() {
-        let expected = vec![(1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2), (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4), (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4), (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4)];
+        let expected = vec![
+            (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2),
+            (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4),
+            (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4),
+            (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4),
+        ];
         let n: i32 = 4;
         let test = cvec![(x,y, z); x <- 1..=n, y <- x..=n, z <- y..=n];
 
@@ -318,7 +335,12 @@ mod tests {
 
     #[test]
     fn cvec_python_3_nested_no_conditional() {
-        let expected = vec![(1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2), (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4), (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4), (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4)];
+        let expected = vec![
+            (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2),
+            (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4),
+            (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4),
+            (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4),
+        ];
         let n: i32 = 4;
         let test = cvec![(x, y, z); for x in 1..=n, for y in x..=n, for z in y..=n];
 
