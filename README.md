@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.com/GrayJack/sugars.svg?token=shFam3KGN8B2PbDYxY4y&branch=master)](https://travis-ci.com/GrayJack/sugars)
 [![License](https://img.shields.io/github/license/GrayJack/sugars.svg)](./LICENSE)
 [![Hits-of-Code](https://hitsofcode.com/github/GrayJack/sugars)](https://hitsofcode.com/view/github/GrayJack/sugars)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGrayJack%2Fsugars.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FGrayJack%2Fsugars?ref=badge_shield)
 
 This crate provides a collection of macros to make some tasks easier to use
 on Rust ecosystem.
@@ -101,3 +102,6 @@ let x = time!( 100 + 20 );
 
 ## LICENSE
 This software is licensed under the [MIT Public License](./LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FGrayJack%2Fsugars.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FGrayJack%2Fsugars?ref=badge_large)
