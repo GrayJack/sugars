@@ -152,11 +152,16 @@ macro_rules! time {
         let time = Instant::now();
         match $e {
             tmp => {
-                eprintln!("{:.6} seconds", time.elapsed().as_secs_f64());
+                eprintln!("{} {:.6} seconds", stringify!($e), time.elapsed().as_secs_f64());
                 tmp
             }
         }
     }};
+    // Trailing comma with single argument is ignored
+    ($e:expr,) => { $crate::time!($e) };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::time!($e)),+,)
+    };
 }
 
 #[cfg(test)]
