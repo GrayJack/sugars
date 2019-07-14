@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
+Now `time` macro supports more than one expression and return a tuple
+Now `time` macro prints the expression that was passed to it
 
 ## 0.3.0
 Add a number of macros to create smart pointers: `rc!`, `refcell!`, `cow!`, `arc!`, `mutex!`

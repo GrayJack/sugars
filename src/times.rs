@@ -128,8 +128,11 @@ macro_rules! sleep {
 
 /// Print out the time it took to execute a given expression in seconds.
 ///
-/// Much like Rust standard library dbg! macro, but prints the
-/// time it takes to run what is inside.
+/// Much like Rust standard library `dbg!` macro, but prints the
+/// time it takes to run what is passed.
+///
+/// Like `dbg!` macro, this also supports more than one expression, returning
+/// a tuple with the evaluated expressions
 ///
 /// **Note:** requires Rust unstable feature `duration_float`,
 /// so it lives on crate feature `nightly`.
@@ -142,6 +145,28 @@ macro_rules! sleep {
 /// let d = dur!(10 sec);
 /// // Sleeps for 10 seconds
 /// time!(std::thread::sleep(d)); // Should print 10.000 at least
+/// # }
+/// ```
+///
+/// **With multiple expr:**
+///
+/// Assume `some_comp()` and `another_comp()` as two function that compute
+/// something that takes some time.
+///
+/// ```rust
+/// # #![feature(duration_float)]
+/// use sugars::time;
+/// # use sugars::sleep;
+/// # fn some_comp() -> i32{
+/// # sleep!(1 sec);
+/// # 1 + 1
+/// # }
+/// # fn another_comp() -> i32 {
+/// # sleep!(2 sec);
+/// # 1 + 3
+/// # }
+/// # fn main() {
+/// let (a, b) = time!(some_comp(), another_comp());
 /// # }
 /// ```
 #[cfg(feature = "nightly")]
