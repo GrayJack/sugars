@@ -8,8 +8,14 @@ repository = "https://github.com/GrayJack/sugars"
 documentation = "https://docs.rs/sugars"
 homepage = "https://crates.io/crates/sugars"
 description = "A collection of macros in Rust to make some tasks easier to use or less verbose"
+categories = ["rust-patterns"]
+keywords = ["sugar", "sugars", "macro"]
 exclude = ["/.travis.yml"]
 edition = "2018"
+
+[badges]
+travis-ci = { repository = "GrayJack/sugars" }
+maintenance = { status = "actively-developed" }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

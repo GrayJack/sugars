@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master
+Add `cell` macro to create a smart pointer type `Cell`
 Now `time` macro supports more than one expression and return a tuple
 Now `time` macro prints the expression that was passed to it
 

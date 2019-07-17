@@ -50,6 +50,22 @@ macro_rules! cow {
     };
 }
 
+/// A simple macro to make a new `Cell` value.
+///
+/// # Example
+/// ```
+/// use std::cell::Cell;
+/// use sugars::cell;
+/// # fn main() {
+/// assert_eq!(Cell::new(10), cell!(10));
+/// # }
+#[macro_export]
+macro_rules! cell {
+    ($e:expr) => {
+        std::cell::Cell::new($e)
+    };
+}
+
 /// A simple macro to make a new `RefCell` value.
 ///
 /// # Example
@@ -131,6 +147,13 @@ mod tests {
         let expected: Cow<Test> = Cow::Owned(Test(10));
         let test = cow!(Test(10));
         assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cell() {
+        use std::cell::Cell;
+        assert_eq!(Cell::new(10), cell!(10));
+        assert_eq!(Cell::new(Some("String")), cell!(Some("String")));
     }
 
     #[test]
