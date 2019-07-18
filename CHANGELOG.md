@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master
+The macro `boxed` now return a tuple of `Box` values if 2 or more expression are passed to it
 Consistency in the `cvec` macro between 2 and 3 nested versions
 Add `cell` macro to create a smart pointer type `Cell`
 Now `time` macro supports more than one expression and return a tuple

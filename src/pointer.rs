@@ -2,16 +2,29 @@
 
 /// A simple macro to make a new `Box` value.
 ///
+/// It is also able to create tuples if given more than one parameter.
+///
 /// # Example
 /// ```
 /// use sugars::boxed;
 /// # fn main() {
 /// assert_eq!(Box::new(10), boxed!(10));
+///
+/// // Tuple example
+/// let (box_a, box_b) = boxed!(10, "my_str");
+/// assert_eq!(Box::new(10), box_a);
+/// assert_eq!(Box::new("my_str"), box_b);
 /// # }
 #[macro_export]
 macro_rules! boxed {
     ($e:expr) => {
         Box::new($e)
+    };
+    ($e:expr,) => {
+        $crate::boxed!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::boxed!($e)),+,)
     };
 }
 
@@ -123,6 +136,20 @@ mod tests {
     fn boxed() {
         assert_eq!(Box::new(10), boxed!(10));
         assert_eq!(Box::new(Some("String")), boxed!(Some("String")));
+    }
+
+    #[test]
+    fn boxed_trailing_comma() {
+        assert_eq!(Box::new(10), boxed!(10,));
+        assert_eq!(Box::new(Some("String")), boxed!(Some("String"),));
+    }
+
+    #[test]
+    fn boxed_tuples() {
+        let expected1 = (Box::new(10), Box::new(11));
+        let expected2 = (Box::new(Some("String")), Box::new(Some("other_str")));
+        assert_eq!(expected1, boxed!(10, 11));
+        assert_eq!(expected2, boxed!(Some("String"), Some("other_str")));
     }
 
     #[test]
