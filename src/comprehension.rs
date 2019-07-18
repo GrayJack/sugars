@@ -42,8 +42,8 @@ macro_rules! cvec {
     // and less headache about iteration and lifetimes)
     ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr) => {{
         let mut v = Vec::new();
-        for $i2 in $iter2 {
-            for $i1 in $iter1 {
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
                 v.push($e);
             }
         }
@@ -52,8 +52,8 @@ macro_rules! cvec {
 
     ($e:expr; $i1:ident <- $iter1:expr, $i2:ident <- $iter2:expr, if $cond:expr) => {{
         let mut v = Vec::new();
-        for $i2 in $iter2 {
-            for $i1 in $iter1 {
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
                 if $cond {
                     v.push($e);
                 }
@@ -64,8 +64,8 @@ macro_rules! cvec {
 
     ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr) => {{
         let mut v = Vec::new();
-        for $i2 in $iter2 {
-            for $i1 in $iter1 {
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
                 v.push($e);
             }
         }
@@ -74,8 +74,8 @@ macro_rules! cvec {
 
     ($e:expr; for $i1:ident in $iter1:expr, for $i2:ident in $iter2:expr, if $cond:expr) => {{
         let mut v = Vec::new();
-        for $i2 in $iter2 {
-            for $i1 in $iter1 {
+        for $i1 in $iter1 {
+            for $i2 in $iter2 {
                 if $cond {
                     v.push($e);
                 }
@@ -262,7 +262,7 @@ mod tests {
     fn cvec_haskell_2_nested_no_conditional() {
         let expected = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-        let test = cvec![x; x <- y, y <- nested];
+        let test = cvec![x; y <- nested, x <- y];
 
         assert_eq!(expected, test);
     }
@@ -271,7 +271,7 @@ mod tests {
     fn cvec_haskell_2_nested_with_conditional() {
         let expected = vec![2, 4, 6, 8];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-        let test = cvec![x; x <- y, y <- nested, if x % 2 == 0];
+        let test = cvec![x; y <- nested, x <- y, if x % 2 == 0];
 
         assert_eq!(expected, test);
     }
@@ -319,7 +319,7 @@ mod tests {
     fn cvec_python_2_nested_no_conditional() {
         let expected = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-        let test = cvec![x; for x in y, for y in nested];
+        let test = cvec![x; for y in nested, for x in y];
 
         assert_eq!(expected, test);
     }
@@ -328,7 +328,7 @@ mod tests {
     fn cvec_python_2_nested_with_conditional() {
         let expected = vec![2, 4, 6, 8];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-        let test = cvec![x; for x in y, for y in nested, if x % 2 == 0];
+        let test = cvec![x; for y in nested, for x in y, if x % 2 == 0];
 
         assert_eq!(expected, test);
     }
