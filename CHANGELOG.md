@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
+
+## 0.4.0
 The macro `mutex` now return a tuple of `Mutex` values if 2 or more expression are passed to it
 The macro `refcell` now return a tuple of `RefCell` values if 2 or more expression are passed to it
 The macro `cell` now return a tuple of `Cell` values if 2 or more expression are passed to it
