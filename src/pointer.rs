@@ -30,6 +30,8 @@ macro_rules! boxed {
 
 /// A simple macro to make a new `Rc` value.
 ///
+/// It is also able to create tuples if given more than one parameter.
+///
 /// # Example
 /// ```
 /// use std::rc::Rc;
@@ -41,6 +43,12 @@ macro_rules! boxed {
 macro_rules! rc {
     ($e:expr) => {
         std::rc::Rc::new($e)
+    };
+    ($e:expr,) => {
+        $crate::rc!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::rc!($e)),+,)
     };
 }
 
@@ -77,6 +85,7 @@ macro_rules! cell {
     ($e:expr) => {
         std::cell::Cell::new($e)
     };
+
 }
 
 /// A simple macro to make a new `RefCell` value.
