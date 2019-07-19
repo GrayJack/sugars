@@ -73,6 +73,8 @@ macro_rules! cow {
 
 /// A simple macro to make a new `Cell` value.
 ///
+/// It is also able to create tuples if given more than one parameter.
+///
 /// # Example
 /// ```
 /// use std::cell::Cell;
@@ -85,10 +87,17 @@ macro_rules! cell {
     ($e:expr) => {
         std::cell::Cell::new($e)
     };
-
+    ($e:expr,) => {
+        $crate::cell!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::cell!($e)),+,)
+    };
 }
 
 /// A simple macro to make a new `RefCell` value.
+///
+/// It is also able to create tuples if given more than one parameter.
 ///
 /// # Example
 /// ```
@@ -102,9 +111,17 @@ macro_rules! refcell {
     ($e:expr) => {
         std::cell::RefCell::new($e)
     };
+    ($e:expr,) => {
+        $crate::refcell!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::refcell!($e)),+,)
+    };
 }
 
 /// A simple macro to make a new `Arc` value.
+///
+/// It is also able to create tuples if given more than one parameter.
 ///
 /// # Example
 /// ```
@@ -118,9 +135,17 @@ macro_rules! arc {
     ($e:expr) => {
         std::sync::Arc::new($e)
     };
+    ($e:expr,) => {
+        $crate::arc!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::arc!($e)),+,)
+    };
 }
 
 /// A simple macro to make a new `Mutex` value.
+///
+/// It is also able to create tuples if given more than one parameter.
 ///
 /// # Example
 /// ```
@@ -135,6 +160,12 @@ macro_rules! arc {
 macro_rules! mutex {
     ($e:expr) => {
         std::sync::Mutex::new($e)
+    };
+    ($e:expr,) => {
+        $crate::mutex!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::mutex!($e)),+,)
     };
 }
 
@@ -169,6 +200,22 @@ mod tests {
     }
 
     #[test]
+    fn rc_trailing_comma() {
+        use std::rc::Rc;
+        assert_eq!(Rc::new(10), rc!(10,));
+        assert_eq!(Rc::new(Some("String")), rc!(Some("String"),));
+    }
+
+    #[test]
+    fn rc_tuples() {
+        use std::rc::Rc;
+        let expected1 = (Rc::new(10), Rc::new(11));
+        let expected2 = (Rc::new(Some("String")), Rc::new(Some("other_str")));
+        assert_eq!(expected1, rc!(10, 11));
+        assert_eq!(expected2, rc!(Some("String"), Some("other_str")));
+    }
+
+    #[test]
     fn cow() {
         use std::borrow::Cow;
 
@@ -193,6 +240,22 @@ mod tests {
     }
 
     #[test]
+    fn cell_trailing_comma() {
+        use std::cell::Cell;
+        assert_eq!(Cell::new(10), cell!(10,));
+        assert_eq!(Cell::new(Some("String")), cell!(Some("String"),));
+    }
+
+    #[test]
+    fn cell_tuples() {
+        use std::cell::Cell;
+        let expected1 = (Cell::new(10), Cell::new(11));
+        let expected2 = (Cell::new(Some("String")), Cell::new(Some("other_str")));
+        assert_eq!(expected1, cell!(10, 11));
+        assert_eq!(expected2, cell!(Some("String"), Some("other_str")));
+    }
+
+    #[test]
     fn refcell() {
         use std::cell::RefCell;
         assert_eq!(RefCell::new(10), refcell!(10));
@@ -200,10 +263,42 @@ mod tests {
     }
 
     #[test]
+    fn refcell_trailing_comma() {
+        use std::cell::RefCell;
+        assert_eq!(RefCell::new(10), refcell!(10,));
+        assert_eq!(RefCell::new(Some("String")), refcell!(Some("String"),));
+    }
+
+    #[test]
+    fn refcell_tuples() {
+        use std::cell::RefCell;
+        let expected1 = (RefCell::new(10), RefCell::new(11));
+        let expected2 = (RefCell::new(Some("String")), RefCell::new(Some("other_str")));
+        assert_eq!(expected1, refcell!(10, 11));
+        assert_eq!(expected2, refcell!(Some("String"), Some("other_str")));
+    }
+
+    #[test]
     fn arc() {
         use std::sync::Arc;
         assert_eq!(Arc::new(10), arc!(10));
         assert_eq!(Arc::new(Some("String")), arc!(Some("String")));
+    }
+
+    #[test]
+    fn arc_trailing_comma() {
+        use std::sync::Arc;
+        assert_eq!(Arc::new(10), arc!(10,));
+        assert_eq!(Arc::new(Some("String")), arc!(Some("String"),));
+    }
+
+    #[test]
+    fn arc_tuples() {
+        use std::sync::Arc;
+        let expected1 = (Arc::new(10), Arc::new(11));
+        let expected2 = (Arc::new(Some("String")), Arc::new(Some("other_str")));
+        assert_eq!(expected1, arc!(10, 11));
+        assert_eq!(expected2, arc!(Some("String"), Some("other_str")));
     }
 
     #[test]

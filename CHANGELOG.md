@@ -1,6 +1,11 @@
 # Changes
 
 ## Unreleased ~ master
+The macro `mutex` now return a tuple of `Mutex` values if 2 or more expression are passed to it
+The macro `refcell` now return a tuple of `RefCell` values if 2 or more expression are passed to it
+The macro `cell` now return a tuple of `Cell` values if 2 or more expression are passed to it
+The macro `arc` now return a tuple of `Arc` values if 2 or more expression are passed to it
+The macro `rc` now return a tuple of `Rc` values if 2 or more expression are passed to it
 The macro `boxed` now return a tuple of `Box` values if 2 or more expression are passed to it
 Consistency in the `cvec` macro between 2 and 3 nested versions
 Add `cell` macro to create a smart pointer type `Cell`
