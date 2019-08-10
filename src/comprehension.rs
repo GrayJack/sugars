@@ -238,9 +238,110 @@ macro_rules! cset {
     }};
 }
 
+/// Macro to `BTreeMap` collection comprehensions
+///
+/// Supports 2 types of grammars: Haskell-like and Python-like
+///
+/// **Limitations:** Only 1 nested comprehensions and
+/// pattern support only works with python syntax
+///
+/// # Examples:
+/// ```rust
+/// use sugars::cbtmap;
+///
+/// # fn main() {
+/// let a = 10;
+/// // Haskell-like
+/// let x = cbtmap!{x => x+a; x <- 1..10};
+/// let y = cbtmap!{x => x+a; x <- 1..10, if x%2 == 0};
+///
+/// // Python-like
+/// let w = cbtmap!{x => x+a; for x in 1..10};
+/// let z = cbtmap!{x => x+a; for x in 1..10, if x%2 == 0};
+/// # }
+/// ```
+#[macro_export]
+macro_rules! cbtmap {
+    ($key:expr => $value:expr; $i:ident <- $iter:expr) => {{
+        use std::collections::BTreeMap;
+        $iter.map(|$i| ($key, $value)).collect::<BTreeMap<_, _>>()
+    }};
+
+    ($key:expr => $value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
+        use std::collections::BTreeMap;
+        $iter
+            .filter(|$i| $cond)
+            .map(|$i| ($key, $value))
+            .collect::<BTreeMap<_, _>>()
+    }};
+
+    ($key:expr => $value:expr; for $p:pat in $iter:expr) => {{
+        use std::collections::BTreeMap;
+        $iter.map(|$p| ($key, $value)).collect::<BTreeMap<_, _>>()
+    }};
+
+    ($key:expr => $value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
+        use std::collections::BTreeMap;
+        $iter
+            .filter(|$p| $cond)
+            .map(|$p| ($key, $value))
+            .collect::<BTreeMap<_, _>>()
+    }};
+}
+
+/// Macro to `BTreeSet` collection comprehensions
+///
+/// Supports 2 types of grammars: Haskell-like and Python-like
+///
+/// **Limitations:** Only 1 nested comprehensions and
+/// pattern support only works with python syntax
+///
+/// # Examples:
+/// ```rust
+/// use sugars::cbtset;
+///
+/// # fn main() {
+/// // Haskell-like
+/// let x = cbtset!{x; x <- 1..10};
+/// let y = cbtset!{x; x <- 1..10, if x%2 == 0};
+///
+/// // Python-like
+/// let w = cbtset!{x; for x in 1..10};
+/// let z = cbtset!{x; for x in 1..10, if x%2 == 0};
+/// # }
+/// ```
+#[macro_export]
+macro_rules! cbtset {
+    ($value:expr; $i:ident <- $iter:expr) => {{
+        use std::collections::BTreeSet;
+        $iter.map(|$i| $value).collect::<BTreeSet<_>>()
+    }};
+
+    ($value:expr; $i:ident <- $iter:expr, if $cond:expr) => {{
+        use std::collections::BTreeSet;
+        $iter
+            .filter(|$i| $cond)
+            .map(|$i| $value)
+            .collect::<BTreeSet<_>>()
+    }};
+
+    ($value:expr; for $p:pat in $iter:expr) => {{
+        use std::collections::BTreeSet;
+        $iter.map(|$p| $value).collect::<BTreeSet<_>>()
+    }};
+
+    ($value:expr; for $p:pat in $iter:expr, if $cond:expr) => {{
+        use std::collections::BTreeSet;
+        $iter
+            .filter(|$p| $cond)
+            .map(|$p| $value)
+            .collect::<BTreeSet<_>>()
+    }};
+}
+
 #[cfg(test)]
 mod tests {
-    use std::collections::{HashMap, HashSet};
+    use std::collections::{HashMap, HashSet, BTreeMap, BTreeSet};
 
     #[test]
     fn cvec_haskell_basic_no_conditional() {
@@ -285,7 +386,7 @@ mod tests {
             (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4),
         ];
         let n: i32 = 4;
-        let test = cvec![(x,y, z); x <- 1..=n, y <- x..=n, z <- y..=n];
+        let test = cvec![(x, y, z); x <- 1..=n, y <- x..=n, z <- y..=n];
 
         assert_eq!(expected, test);
     }
@@ -452,6 +553,106 @@ mod tests {
             }
         }
         let test = cset! {x; for x in 1..10, if x%2==0};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtmap_haskell_no_conditional() {
+        let a = 10;
+        let mut expected = BTreeMap::new();
+        for i in 1..10 {
+            expected.insert(i, i + a);
+        }
+        let test = cbtmap! {x => x+a; x <- 1..10};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtmap_haskell_with_conditional() {
+        let a = 10;
+        let mut expected = BTreeMap::new();
+        for i in 1..10 {
+            if i % 2 == 0 {
+                expected.insert(i, i + a);
+            }
+        }
+        let test = cbtmap! {x => x+a; x <- 1..10, if x%2==0};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtmap_python_no_conditional() {
+        let a = 10;
+        let mut expected = BTreeMap::new();
+        for i in 1..10 {
+            expected.insert(i, i + a);
+        }
+        let test = cbtmap! {x => x+a; for x in 1..10};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtmap_python_with_conditional() {
+        let a = 10;
+        let mut expected = BTreeMap::new();
+        for i in 1..10 {
+            if i % 2 == 0 {
+                expected.insert(i, i + a);
+            }
+        }
+        let test = cbtmap! {x => x+a; for x in 1..10, if x%2==0};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtset_haskell_no_conditional() {
+        let mut expected = BTreeSet::new();
+        for i in 1..10 {
+            expected.insert(i);
+        }
+        let test = cbtset! {x; x <- 1..10};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtset_haskell_with_conditional() {
+        let mut expected = BTreeSet::new();
+        for i in 1..10 {
+            if i % 2 == 0 {
+                expected.insert(i);
+            }
+        }
+        let test = cbtset! {x; x <- 1..10, if x%2==0};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtset_python_no_conditional() {
+        let mut expected = BTreeSet::new();
+        for i in 1..10 {
+            expected.insert(i);
+        }
+        let test = cbtset! {x; for x in 1..10};
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn cbtset_python_with_conditional() {
+        let mut expected = BTreeSet::new();
+        for i in 1..10 {
+            if i % 2 == 0 {
+                expected.insert(i);
+            }
+        }
+        let test = cbtset! {x; for x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
