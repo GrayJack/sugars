@@ -125,6 +125,63 @@ macro_rules! btset {
     });
 }
 
+
+/// Create a `LinkedList` from a list of elements. It pushes the element to the back of the list.
+///
+/// # Example
+///
+/// ```rust
+/// use sugars::lkl;
+///
+/// # fn main() {
+/// let lkl = lkl!["a", "b"];
+///
+/// assert!(lkl.contains(&"a"));
+/// assert!(lkl.contains(&"b"));
+/// assert!(!lkl.contains(&"c"));
+/// # }
+/// ```
+#[macro_export]
+macro_rules! lkl {
+    ($($key:expr,)+) => (lkl!($($key),+));
+
+    ( $($key:expr),* ) => {{
+        let mut lkl = std::collections::LinkedList::new();
+        $(
+            lkl.push_back($key);
+        )*
+        lkl
+    }};
+}
+
+/// Create a `LinkedList` from a list of elements. It pushes the element to the start of the list.
+///
+/// # Example
+///
+/// ```rust
+/// use sugars::lkl;
+///
+/// # fn main() {
+/// let lkl = lkl!["a", "b"];
+///
+/// assert!(lkl.contains(&"a"));
+/// assert!(lkl.contains(&"b"));
+/// assert!(!lkl.contains(&"c"));
+/// # }
+/// ```
+#[macro_export]
+macro_rules! flkl {
+    ($($key:expr,)+) => (flkl!($($key),+));
+
+    ( $($key:expr),* ) => {{
+        let mut lkl = std::collections::LinkedList::new();
+        $(
+            lkl.push_front($key);
+        )*
+        lkl
+    }};
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -164,5 +221,35 @@ mod tests {
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
+    }
+
+    #[test]
+    fn lkl() {
+        use std::collections::LinkedList;
+        let mut expected = LinkedList::new();
+        expected.push_back("a");
+        expected.push_back("b");
+        let lkl = lkl!["a", "b"];
+
+
+        assert!(lkl.contains(&"a"));
+        assert!(lkl.contains(&"b"));
+        assert!(!lkl.contains(&"c"));
+        assert_eq!(expected, lkl);
+    }
+
+    #[test]
+    fn flkl() {
+        use std::collections::LinkedList;
+        let mut expected = LinkedList::new();
+        expected.push_front("a");
+        expected.push_front("b");
+        let lkl = flkl!["a", "b"];
+
+
+        assert!(lkl.contains(&"a"));
+        assert!(lkl.contains(&"b"));
+        assert!(!lkl.contains(&"c"));
+        assert_eq!(expected, lkl);
     }
 }

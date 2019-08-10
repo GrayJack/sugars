@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master
+Add macros `lkl` and `flkl` that return a `LinkedList`, the fist pushing to back and the other to the front
 
 ## 0.4.0
 The macro `mutex` now return a tuple of `Mutex` values if 2 or more expression are passed to it
