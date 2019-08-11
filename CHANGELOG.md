@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
+
+## 0.5.0
 Add comprehension macros `cbtmap` and `cbtset` mostly for completeness
 Add macros `lkl` and `flkl` that return a `LinkedList`, the fist pushing to back and the other to the front
 

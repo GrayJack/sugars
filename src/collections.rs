@@ -125,7 +125,6 @@ macro_rules! btset {
     });
 }
 
-
 /// Create a `LinkedList` from a list of elements. It pushes the element to the back of the list.
 ///
 /// # Example
@@ -187,7 +186,7 @@ mod tests {
 
     #[test]
     fn hmap() {
-        let map = hmap!{
+        let map = hmap! {
             "a" => 1,
             "b" => 2,
         };
@@ -198,7 +197,7 @@ mod tests {
 
     #[test]
     fn hset() {
-        let set = hset!{"a", "b"};
+        let set = hset! {"a", "b"};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
@@ -206,7 +205,7 @@ mod tests {
 
     #[test]
     fn btmap() {
-        let map = btmap!{
+        let map = btmap! {
             "a" => 1,
             "b" => 2,
         };
@@ -217,7 +216,7 @@ mod tests {
 
     #[test]
     fn btset() {
-        let set = btset!{"a", "b"};
+        let set = btset! {"a", "b"};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
@@ -230,7 +229,6 @@ mod tests {
         expected.push_back("a");
         expected.push_back("b");
         let lkl = lkl!["a", "b"];
-
 
         assert!(lkl.contains(&"a"));
         assert!(lkl.contains(&"b"));
@@ -245,7 +243,6 @@ mod tests {
         expected.push_front("a");
         expected.push_front("b");
         let lkl = flkl!["a", "b"];
-
 
         assert!(lkl.contains(&"a"));
         assert!(lkl.contains(&"b"));
