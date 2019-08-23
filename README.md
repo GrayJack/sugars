@@ -111,8 +111,7 @@ let x = time!( 100 + 20 );
 ```
 
 ## Minimal Viable Rust Version
-As soon the version 1.38.0 hits stable channel, that will become one since one feature needs it.
-That would be a good 1.0.0 release
+This software requires Rust version equal or above 1.38.
 
 ## LICENSE
 This software is licensed under the [MIT Public License](./LICENSE).

@@ -169,7 +169,6 @@ macro_rules! sleep {
 /// let (a, b) = time!(some_comp(), another_comp());
 /// # }
 /// ```
-#[cfg(feature = "nightly")]
 #[macro_export]
 macro_rules! time {
     ($e:expr) => {{

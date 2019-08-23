@@ -1,7 +1,3 @@
-// #![cfg_attr(not(any(feature = "nightly")), forbid(unstable_features))]
-
-#![cfg_attr(feature = "nightly", feature(duration_float))]
-
 //! This crate provides a collection of macros to make some tasks easier to use
 //! on Rust ecosystem.
 //!
