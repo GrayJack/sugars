@@ -1,6 +1,7 @@
 # Sugars - Nice Rust macros for better writing
 
 [![Documentation](https://docs.rs/sugars/badge.svg)](https://docs.rs/sugars)
+[![Github Actions](https://github.com/GrayJack/sugars/workflows/Build/badge.svg)](https://github.com/GrayJack/sugars/actions)
 [![Build Status](https://travis-ci.com/GrayJack/sugars.svg?branch=master)](https://travis-ci.com/GrayJack/sugars)
 [![License](https://img.shields.io/github/license/GrayJack/sugars.svg)](./LICENSE)
 [![Hits-of-Code](https://hitsofcode.com/github/GrayJack/sugars)](https://hitsofcode.com/view/github/GrayJack/sugars)
