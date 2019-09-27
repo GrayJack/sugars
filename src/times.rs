@@ -139,7 +139,6 @@ macro_rules! sleep {
 ///
 /// # Example
 /// ```rust
-/// # #![feature(duration_float)]
 /// use sugars::{time, dur};
 /// # fn main() {
 /// let d = dur!(10 sec);
@@ -154,7 +153,6 @@ macro_rules! sleep {
 /// something that takes some time.
 ///
 /// ```rust
-/// # #![feature(duration_float)]
 /// use sugars::time;
 /// # use sugars::sleep;
 /// # fn some_comp() -> i32{
