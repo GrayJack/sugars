@@ -2,7 +2,7 @@
 
 ## Unreleased ~ master
 ## 1.0.0
-Remove nightly requirements and increase 
+Remove nightly requirements.
 
 ## 0.5.0
 Add comprehension macros `cbtmap` and `cbtset` mostly for completeness
