@@ -10,10 +10,13 @@ jobs:
         os: [ubuntu-latest]
         rust: [1.38.0, stable, beta, nightly]
     steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust }}
+        toolchain: ${{ matrix.rust }}
+        override: true
+        profile: minimal
+        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
@@ -26,10 +29,13 @@ jobs:
         os: [macOS-latest]
         rust: [1.38.0, stable, beta, nightly]
     steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust }}
+        toolchain: ${{ matrix.rust }}
+        override: true
+        profile: minimal
+        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
@@ -42,10 +48,13 @@ jobs:
         os: [windows-latest]
         rust: [1.38.0, stable, beta, nightly]
     steps:
-    - uses: actions/checkout@v1
-    - uses: hecrj/setup-rust-action@v1
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust }}
+        toolchain: ${{ matrix.rust }}
+        override: true
+        profile: minimal
+        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
