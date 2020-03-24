@@ -8,7 +8,7 @@
 /// use sugars::hmap;
 ///
 /// # fn main() {
-/// let map = hmap!{
+/// let map = hmap! {
 ///     "a" => 1,
 ///     "b" => 2,
 /// };
@@ -42,7 +42,7 @@ macro_rules! hmap {
 /// use sugars::hset;
 ///
 /// # fn main() {
-/// let set = hset!{"a", "b"};
+/// let set = hset! {"a", "b"};
 ///
 /// assert!(set.contains("a"));
 /// assert!(set.contains("b"));
@@ -73,7 +73,7 @@ macro_rules! hset {
 /// use sugars::btmap;
 ///
 /// # fn main() {
-/// let map = btmap!{
+/// let map = btmap! {
 ///     "a" => 1,
 ///     "b" => 2,
 /// };
@@ -105,7 +105,7 @@ macro_rules! btmap {
 /// use sugars::btset;
 ///
 /// # fn main() {
-/// let set = btset!{"a", "b"};
+/// let set = btset! {"a", "b"};
 ///
 /// assert!(set.contains("a"));
 /// assert!(set.contains("b"));
@@ -125,13 +125,13 @@ macro_rules! btset {
     });
 }
 
-/// Create a `LinkedList` from a list of elements. It pushes the element to the back of the list.
+/// Create a [`LinkedList`] from a list of elements. It pushes the element to the back of
+/// the list.
 ///
-/// # Example
+/// # Examples
 ///
 /// ```rust
 /// use sugars::lkl;
-///
 /// # fn main() {
 /// let lkl = lkl!["a", "b"];
 ///
@@ -140,8 +140,25 @@ macro_rules! btset {
 /// assert!(!lkl.contains(&"c"));
 /// # }
 /// ```
+///
+/// When you want to build a [`LinkedList`] with all values with a given default value
+/// ```rust
+/// use sugars::lkl;
+/// # fn main() {
+/// let lkl = lkl!["10"; 2];
+/// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"10"), iter.next());
+/// assert_eq!(Some(&"10"), iter.next());
+/// assert_eq!(None, iter.next());
+/// # }
 #[macro_export]
 macro_rules! lkl {
+    ($elem:expr; $n:expr) => {{
+        let mut lkl = std::collections::LinkedList::new();
+        (0..$n).for_each(|_| lkl.push_back($elem));
+        lkl
+    }};
+
     ($($key:expr,)+) => (lkl!($($key),+));
 
     ( $($key:expr),* ) => {{
@@ -153,23 +170,41 @@ macro_rules! lkl {
     }};
 }
 
-/// Create a `LinkedList` from a list of elements. It pushes the element to the start of the list.
+/// Create a `LinkedList` from a list of elements. It pushes the element to the start of
+/// the list.
 ///
 /// # Example
 ///
 /// ```rust
-/// use sugars::lkl;
+/// use sugars::flkl;
 ///
 /// # fn main() {
-/// let lkl = lkl!["a", "b"];
+/// let lkl = flkl!["a", "b"];
 ///
 /// assert!(lkl.contains(&"a"));
 /// assert!(lkl.contains(&"b"));
 /// assert!(!lkl.contains(&"c"));
 /// # }
 /// ```
+///
+/// When you want to build a [`LinkedList`] with all values with a given default value
+/// ```rust
+/// use sugars::flkl;
+/// # fn main() {
+/// let lkl = flkl!["10"; 2];
+/// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"10"), iter.next());
+/// assert_eq!(Some(&"10"), iter.next());
+/// assert_eq!(None, iter.next());
+/// # }
 #[macro_export]
 macro_rules! flkl {
+    ($elem:expr; $n:expr) => {{
+        let mut lkl = std::collections::LinkedList::new();
+        (0..$n).for_each(|_| lkl.push_front($elem));
+        lkl
+    }};
+
     ($($key:expr,)+) => (flkl!($($key),+));
 
     ( $($key:expr),* ) => {{
@@ -237,6 +272,20 @@ mod tests {
     }
 
     #[test]
+    fn lkl_reapeat() {
+        use std::collections::LinkedList;
+        let expected = {
+            let mut l = LinkedList::new();
+            l.push_back("a");
+            l.push_back("a");
+            l
+        };
+        let test = lkl!["a"; 2];
+
+        assert_eq!(expected, test);
+    }
+
+    #[test]
     fn flkl() {
         use std::collections::LinkedList;
         let mut expected = LinkedList::new();
@@ -248,5 +297,19 @@ mod tests {
         assert!(lkl.contains(&"b"));
         assert!(!lkl.contains(&"c"));
         assert_eq!(expected, lkl);
+    }
+
+    #[test]
+    fn flkl_reapeat() {
+        use std::collections::LinkedList;
+        let expected = {
+            let mut l = LinkedList::new();
+            l.push_front("a");
+            l.push_front("a");
+            l
+        };
+        let test = flkl!["a"; 2];
+
+        assert_eq!(expected, test);
     }
 }

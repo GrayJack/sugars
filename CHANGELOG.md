@@ -1,6 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
+Add new version of `lkl` and `flkl` that works almost like array init syntax (`[$init_elem; $n_times]`)
+
 ## 1.0.0
 Remove nightly requirements.
 
