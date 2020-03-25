@@ -1,6 +1,6 @@
 [package]
 name = "sugars"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["GrayJack <gr41.j4ck@gmail.com>"]
 readme = "README.md"
 license-file = "LICENSE"
@@ -20,6 +20,3 @@ maintenance = { status = "actively-developed" }
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
-[features]
-nightly = [] # for building with unstable Rust features
