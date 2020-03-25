@@ -78,28 +78,28 @@ sleep!(10 sec)
 **cvec**: Notice that `cvec` can be nested up to 3 times max
 ```rust
 // Normal comprehension
-cvec![x | x <- 0..10];
+cvec![x; x in 0..10];
 
 // You can filter as well
-cvec![x | x <- 0..10, if x % 2 == 0];
+cvec![x; x in 0..10, if x % 2 == 0];
 ```
 
 **cset** and **cbtset**: Notice that `cset`/`cbtset` cannot be nested. Usage are the same, just change `HashSet` to `BTreeSet` and `cset!` to `cbtset!`
 ```rust
 // Normal comprehension
-cset!{x | x <- 0..10};
+cset!{x; x in 0..10};
 
 // You can filter as well
-cset!{x | x <- 0..10, if x % 2 == 0};
+cset!{x; x in 0..10, if x % 2 == 0};
 ```
 
 **cmap** and **cbtmap**: Notice that `cmap`/`cbtmap` cannot be nested. Usage are the same, just change `HashMap` to `BTreeMap` and `cmap!` to `cbtmap!`
 ```rust
 // Normal comprehension
-cmap!{x => x*2 | x <= x <- 1..10};
+cmap!{x => x*2; x in 1..10};
 
 // You can filter as well
-cmap!{x => x*2 | x <= x <- 1..10, if x%2 == 0};
+cmap!{x => x*2; x in 1..10, if x%2 == 0};
 ```
 
 **time**
