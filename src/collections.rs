@@ -1,6 +1,6 @@
 //! Module for collections literal macros
 
-/// Create a `HashMap` from a list of key-value pairs
+/// Create a [`HashMap`] from a list of key-value pairs
 ///
 /// # Example
 ///
@@ -18,6 +18,8 @@
 /// assert_eq!(map.get("c"), None);
 /// # }
 /// ```
+///
+/// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[macro_export]
 macro_rules! hmap {
     (@single $($x:tt)*) => (());
@@ -34,7 +36,7 @@ macro_rules! hmap {
     });
 }
 
-/// Create a `HashSet` from a list of elements.
+/// Create a [`HashSet`] from a list of elements.
 ///
 /// # Example
 ///
@@ -49,6 +51,8 @@ macro_rules! hmap {
 /// assert!(!set.contains("c"));
 /// # }
 /// ```
+///
+/// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
 #[macro_export]
 macro_rules! hset {
     (@single $($x:tt)*) => (());
@@ -65,7 +69,7 @@ macro_rules! hset {
     });
 }
 
-/// Create a `BTreeMap` from a list of key-value pairs
+/// Create a [`BTreeMap`] from a list of key-value pairs
 ///
 /// # Example
 ///
@@ -83,6 +87,8 @@ macro_rules! hset {
 /// assert_eq!(map.get("c"), None);
 /// # }
 /// ```
+///
+/// [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html
 #[macro_export]
 macro_rules! btmap {
     // trailing comma case
@@ -97,7 +103,7 @@ macro_rules! btmap {
     });
 }
 
-/// Create a `BTreeSet` from a list of elements.
+/// Create a [`BTreeSet`] from a list of elements.
 ///
 /// # Example
 ///
@@ -112,6 +118,8 @@ macro_rules! btmap {
 /// assert!(!set.contains("c"));
 /// # }
 /// ```
+///
+/// [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BTreeSet.html
 #[macro_export]
 macro_rules! btset {
     ($($key:expr,)+) => (btset!($($key),+));
@@ -151,6 +159,9 @@ macro_rules! btset {
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(None, iter.next());
 /// # }
+/// ```
+///
+/// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! lkl {
     ($elem:expr; $n:expr) => {{
@@ -170,7 +181,7 @@ macro_rules! lkl {
     }};
 }
 
-/// Create a `LinkedList` from a list of elements. It pushes the element to the start of
+/// Create a [`LinkedList`] from a list of elements. It pushes the element to the start of
 /// the list.
 ///
 /// # Example
@@ -197,6 +208,9 @@ macro_rules! lkl {
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(None, iter.next());
 /// # }
+/// ```
+///
+/// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! flkl {
     ($elem:expr; $n:expr) => {{
