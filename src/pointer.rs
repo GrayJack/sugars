@@ -1,6 +1,6 @@
 //! A module related to the Rust standard smart pointer
 
-/// A simple macro to make a new `Box` value.
+/// A simple macro to make a new [`Box`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -15,6 +15,7 @@
 /// assert_eq!(Box::new(10), box_a);
 /// assert_eq!(Box::new("my_str"), box_b);
 /// # }
+/// ```
 #[macro_export]
 macro_rules! boxed {
     ($e:expr) => {
@@ -28,7 +29,7 @@ macro_rules! boxed {
     };
 }
 
-/// A simple macro to make a new `Rc` value.
+/// A simple macro to make a new [`Rc`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -39,6 +40,9 @@ macro_rules! boxed {
 /// # fn main() {
 /// assert_eq!(Rc::new(10), rc!(10));
 /// # }
+/// ```
+///
+/// [`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
 #[macro_export]
 macro_rules! rc {
     ($e:expr) => {
@@ -64,6 +68,7 @@ macro_rules! rc {
 ///
 /// assert_eq!(expected, test);
 /// # }
+/// ```
 #[macro_export]
 macro_rules! cow {
     ($e:expr) => {
@@ -71,7 +76,7 @@ macro_rules! cow {
     };
 }
 
-/// A simple macro to make a new `Cell` value.
+/// A simple macro to make a new [`Cell`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -82,6 +87,9 @@ macro_rules! cow {
 /// # fn main() {
 /// assert_eq!(Cell::new(10), cell!(10));
 /// # }
+/// ```
+///
+/// [`Cell`]: https://doc.rust-lang.org/std/cell/struct.Cell.html
 #[macro_export]
 macro_rules! cell {
     ($e:expr) => {
@@ -95,7 +103,7 @@ macro_rules! cell {
     };
 }
 
-/// A simple macro to make a new `RefCell` value.
+/// A simple macro to make a new [`RefCell`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -106,6 +114,9 @@ macro_rules! cell {
 /// # fn main() {
 /// assert_eq!(RefCell::new(10), refcell!(10));
 /// # }
+/// ```
+///
+/// [`RefCell`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
 #[macro_export]
 macro_rules! refcell {
     ($e:expr) => {
@@ -119,7 +130,7 @@ macro_rules! refcell {
     };
 }
 
-/// A simple macro to make a new `Arc` value.
+/// A simple macro to make a new [`Arc`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -130,6 +141,9 @@ macro_rules! refcell {
 /// # fn main() {
 /// assert_eq!(Arc::new(10), arc!(10));
 /// # }
+/// ```
+///
+/// [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 #[macro_export]
 macro_rules! arc {
     ($e:expr) => {
@@ -143,7 +157,7 @@ macro_rules! arc {
     };
 }
 
-/// A simple macro to make a new `Mutex` value.
+/// A simple macro to make a new [`Mutex`] value.
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -156,6 +170,9 @@ macro_rules! arc {
 /// let mut locked = mutex.lock().unwrap();
 /// (*locked).push_str("Hello World");
 /// # }
+/// ```
+///
+/// [`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
 #[macro_export]
 macro_rules! mutex {
     ($e:expr) => {

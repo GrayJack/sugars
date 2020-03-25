@@ -1,6 +1,6 @@
 //! Module for time related macros
 
-/// Creates a `Duration` object following a time pattern
+/// Creates a [`Duration`] object following a time pattern
 ///
 /// **Paterns:**
 /// * min: minutes
@@ -19,6 +19,8 @@
 /// std::thread::sleep(d);
 /// # }
 /// ```
+///
+/// [`Duration`]: https://doc.rust-lang.org/std/time/struct.Duration.html
 #[macro_export]
 macro_rules! dur {
     ($e:literal min) => {{

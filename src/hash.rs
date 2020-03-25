@@ -1,5 +1,5 @@
 /// Macro that return the hash of what is passed and also can receive
-/// a hasher to use that intead of default `HashMap` Hasher.
+/// a hasher to use that intead of default [`HashMap`] Hasher.
 ///
 /// # Example
 /// ```
@@ -15,6 +15,8 @@
 /// assert_eq!(16_993_177_596_579_750_922, hash);
 /// # }
 /// ```
+///
+/// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[macro_export]
 macro_rules! hash {
     ($e:expr) => {{
