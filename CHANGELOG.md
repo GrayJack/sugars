@@ -1,7 +1,8 @@
 # Changes
 
 ## Unreleased ~ master
- - Add empty pattern for collections macros already created;
+ - Add a collection macro for `VecDeque`: `deque!`
+ - Add empty pattern for collections macros already created
 
 ## 1.1.0
  - Add for all comprehensions a Implicit-`for` (or Just-`in`) version

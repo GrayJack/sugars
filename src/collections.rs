@@ -1,5 +1,12 @@
 //! Module for collections literal macros
 
+#[doc(hidden)]
+#[macro_export]
+macro_rules! count {
+    (@subst $($x: tt)*) => (());
+    ($($rest: expr),*) => (<[()]>::len(&[$($crate::count!(@subst $rest)),*]));
+}
+
 /// Create a [`HashMap`] from a list of key-value pairs
 ///
 /// # Example
@@ -22,17 +29,14 @@
 /// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[macro_export]
 macro_rules! hmap {
-    (@subst $($x:tt)*) => (());
-    (@count $($rest:expr),*) => (<[()]>::len(&[$($crate::hmap!(@subst $rest)),*]));
-
     () => { std::collections::HashMap::new() };
 
-    ( $($key:expr => $value:expr),+ $(,)? ) => {{
-            let cap = $crate::hmap!(@count $($key),*);
-            let mut map = std::collections::HashMap::with_capacity(cap);
+    ( $($key: expr => $value: expr),+ $(,)? ) => {{
+            const CAP: usize = $crate::count!($($key),*);
+            let mut map = std::collections::HashMap::with_capacity(CAP);
             $(
                 let _ = map.insert($key, $value);
-            )*
+            )+
             map
     }};
 }
@@ -56,17 +60,14 @@ macro_rules! hmap {
 /// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
 #[macro_export]
 macro_rules! hset {
-    (@subst $($x:tt)*) => (());
-    (@count $($rest:expr),*) => (<[()]>::len(&[$($crate::hset!(@subst $rest)),*]));
-
     () => { std::collections::HashSet::new() };
 
-    ($($key:expr),+ $(,)?) => {{
-        let cap = $crate::hset!(@count $($key),*);
-        let mut set = std::collections::HashSet::with_capacity(cap);
+    ($($elem: expr),+ $(,)?) => {{
+        const CAP: usize = $crate::count!($($elem),*);
+        let mut set = std::collections::HashSet::with_capacity(CAP);
         $(
-            let _ = set.insert($key);
-        )*
+            let _ = set.insert($elem);
+        )+
         set
     }};
 }
@@ -95,11 +96,11 @@ macro_rules! hset {
 macro_rules! btmap {
     () => { std::collections::BTreeMap::new() };
 
-    ( $($key:expr => $value:expr),+ $(,)? ) => {{
+    ( $($key: expr => $value: expr),+ $(,)? ) => {{
         let mut map = std::collections::BTreeMap::new();
         $(
             let _ = map.insert($key, $value);
-        )*
+        )+
         map
     }};
 }
@@ -125,12 +126,45 @@ macro_rules! btmap {
 macro_rules! btset {
     () => { std::collections::BTreeSet::new() };
 
-    ( $($key:expr),+ $(,)? ) => {{
+    ( $($elem: expr),+ $(,)? ) => {{
         let mut set = std::collections::BTreeSet::new();
         $(
-            set.insert($key);
-        )*
+            set.insert($elem);
+        )+
         set
+    }};
+}
+
+/// Create a [`VecDeque`] from a list of elements.
+///
+/// # Examples
+///
+/// ```rust
+/// use sugars::deque;
+/// # use std::collections::VecDeque;
+/// # fn main() {
+/// let deque = deque![1, 2, 3, 4];
+/// let deque2: VecDeque<_> = (1..=4).collect();
+///
+/// assert_eq!(deque, deque2);
+/// # }
+#[macro_export]
+macro_rules! deque {
+    () => { std::collections::VecDeque::new() };
+
+    ($elem: expr; $n: expr) => {{
+        let mut deque = std::collections::VecDeque::new();
+        deque.resize_with($n, || $elem);
+        deque
+    }};
+
+    ( $($elem: expr),+ $(,)? ) => {{
+        const CAP: usize = $crate::count!($($elem),*);
+        let mut deque = std::collections::VecDeque::with_capacity(CAP);
+        $(
+            deque.push_back($elem);
+        )+
+        deque
     }};
 }
 
@@ -167,13 +201,13 @@ macro_rules! btset {
 macro_rules! lkl {
     () => { std::collections::LinkedList::new() };
 
-    ($elem:expr; $n:expr) => {{
+    ($elem: expr; $n: expr) => {{
         let mut lkl = std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_back($elem));
         lkl
     }};
 
-    ( $($key:expr),+ $(,)? ) => {{
+    ( $($key: expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
             lkl.push_back($key);
@@ -216,13 +250,13 @@ macro_rules! lkl {
 macro_rules! flkl {
     () => { std::collections::LinkedList::new() };
 
-    ($elem:expr; $n:expr) => {{
+    ($elem: expr; $n: expr) => {{
         let mut lkl = std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_front($elem));
         lkl
     }};
 
-    ( $($key:expr),+ $(,)? ) => {{
+    ( $($key: expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
             lkl.push_front($key);
@@ -284,6 +318,20 @@ mod tests {
         assert!(!set.contains("c"));
 
         assert!(set2.is_empty());
+    }
+
+    #[test]
+    fn deque() {
+        let deque: VecDeque<i32> = deque![];
+        assert!(deque.is_empty());
+
+        let deque1 = deque![0; 7];
+        let deque1_test: VecDeque<i32> = std::iter::repeat(0).take(7).collect();
+        assert_eq!(deque1_test, deque1);
+
+        let deque2 = deque![0, 1, 2, 3, 4, 5];
+        let deque2_test: VecDeque<_> = (0..=5).collect();
+        assert_eq!(deque2_test, deque2);
     }
 
     #[test]
@@ -354,6 +402,7 @@ mod tests {
         hset!{1,};
         btmap!{"a" => 1,};
         btset!{1,};
+        deque!{1,};
         lkl!{1,};
         flkl!{1,};
     }
