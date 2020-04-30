@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master
+ - Add a collection macro for `BinaryHeap`: `bheap!`
  - Add a collection macro for `VecDeque`: `deque!`
  - Add empty pattern for collections macros already created
 

@@ -207,10 +207,10 @@ macro_rules! lkl {
         lkl
     }};
 
-    ( $($key: expr),+ $(,)? ) => {{
+    ( $($elem: expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
-            lkl.push_back($key);
+            lkl.push_back($elem);
         )*
         lkl
     }};
@@ -256,13 +256,41 @@ macro_rules! flkl {
         lkl
     }};
 
-    ( $($key: expr),+ $(,)? ) => {{
+    ( $($elem: expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
-            lkl.push_front($key);
+            lkl.push_front($elem);
         )*
         lkl
     }};
+}
+
+/// Create a [`BinaryHeap`] from a list of elements.
+///
+/// # Examples
+///
+/// ```rust
+/// use sugars::bheap;
+/// # fn main() {
+/// let heap = bheap![1, 2, 3, 4];
+///
+/// for i in heap {
+///     println!("{}", i);
+/// }
+/// # }
+#[macro_export]
+macro_rules! bheap {
+    () => { std::collections::BinaryHeap::new() };
+
+    ( $($elem: expr),+ $(,)? ) => {{
+        const CAP: usize = $crate::count!($($elem),*);
+        let mut bheap = std::collections::BinaryHeap::with_capacity(CAP);
+        $(
+            bheap.push($elem);
+        )+
+
+        bheap
+    }}
 }
 
 #[cfg(test)]
@@ -397,13 +425,35 @@ mod tests {
     }
 
     #[test]
+    fn bheap() {
+        let bheap1: BinaryHeap<()> = bheap![];
+        assert!(bheap1.is_empty());
+
+        let bheap2 = bheap![1, 2, 3, 4, 5,];
+        let bheap2_test = {
+            let mut bh = BinaryHeap::new();
+            bh.push(1);
+            bh.push(2);
+            bh.push(3);
+            bh.push(4);
+            bh.push(5);
+            bh
+        };
+
+        for (test, bh_i) in bheap2_test.iter().zip(bheap2.iter()) {
+            assert_eq!(test, bh_i);
+        }
+    }
+
+    #[test]
     fn trailing_all() {
         hmap!{"a" => 1,};
         hset!{1,};
         btmap!{"a" => 1,};
         btset!{1,};
-        deque!{1,};
-        lkl!{1,};
-        flkl!{1,};
+        deque![1,];
+        lkl![1,];
+        flkl![1,];
+        bheap![1,];
     }
 }
