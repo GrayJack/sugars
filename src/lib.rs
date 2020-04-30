@@ -30,12 +30,12 @@
 ///
 /// ## Examples
 /// **arc**, **boxed**, **cell**, **cow**, **mutex** and **refcell**: Usage are mostly the same, just change de Types and macros
-/// ```rust
+/// ```rust,ignore
 /// assert_eq!(Box::new(10), boxed!(10));
 /// ```
 ///
 /// **hmap** and **btmap**: Usage are the same, just change HashMap to BTreeMap and hmap! to btmap!
-/// ```rust
+/// ```rust,ignore
 /// let mut map = HashMap::new();
 /// map.insert("1", 1);
 /// map.insert("2", 2);
@@ -46,7 +46,7 @@
 /// ```
 ///
 /// **hset** and **btset**: Usage are the same, just change HashSet to BTreeSet and hset! to btset!
-/// ```rust
+/// ```rust,ignore
 /// let mut set = HashSet::new();
 /// map.insert(1);
 /// map.insert(2);
@@ -57,7 +57,7 @@
 /// ```
 ///
 /// **dur** and **sleep**
-/// ```rust
+/// ```rust,ignore
 /// let d1 = dur!(10 sec);
 /// let d2 = Duration::from_secs(10);
 ///
@@ -68,7 +68,7 @@
 /// ```
 ///
 /// **cvec**: Notice that `cvec` can be nested up to 3 times max
-/// ```rust
+/// ```rust,ignore
 /// // Normal comprehension
 /// cvec![x; x in 0..10];
 ///
@@ -77,7 +77,7 @@
 /// ```
 ///
 /// **cset** and **cbtset**: Notice that `cset`/`cbtset` cannot be nested. Usage are the same, just change `HashSet` to `BTreeSet` and `cset!` to `cbtset!`
-/// ```rust
+/// ```rust,ignore
 /// // Normal comprehension
 /// cset!{x; x in 0..10};
 ///
@@ -86,7 +86,7 @@
 /// ```
 ///
 /// **cmap** and **cbtmap**: Notice that `cmap`/`cbtmap` cannot be nested. Usage are the same, just change `HashMap` to `BTreeMap` and `cmap!` to `cbtmap!`
-/// ```rust
+/// ```rust,ignore
 /// // Normal comprehension
 /// cmap!{x => x*2; x in 1..10};
 ///
@@ -95,7 +95,7 @@
 /// ```
 ///
 /// **time**
-/// ```rust
+/// ```rust,ignore
 /// // Should print to stderr ≈ 2.0000 seconds
 /// time!( sleep!(2 sec) );
 ///

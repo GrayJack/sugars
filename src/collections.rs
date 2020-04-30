@@ -22,15 +22,13 @@
 /// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[macro_export]
 macro_rules! hmap {
-    (@single $($x:tt)*) => (());
-    (@count $($rest:expr),*) => (<[()]>::len(&[$(hmap!(@single $rest)),*]));
+    (@subst $($x:tt)*) => (());
+    (@count $($rest:expr),*) => (<[()]>::len(&[$($crate::hmap!(@subst $rest)),*]));
 
     () => { std::collections::HashMap::new() };
 
-    ($($key:expr => $value:expr,)+) => { hmap!($($key => $value),+) };
-
-    ($($key:expr => $value:expr),*) => {{
-            let cap = hmap!(@count $($key),*);
+    ( $($key:expr => $value:expr),+ $(,)? ) => {{
+            let cap = $crate::hmap!(@count $($key),*);
             let mut map = std::collections::HashMap::with_capacity(cap);
             $(
                 let _ = map.insert($key, $value);
@@ -58,15 +56,13 @@ macro_rules! hmap {
 /// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
 #[macro_export]
 macro_rules! hset {
-    (@single $($x:tt)*) => (());
-    (@count $($rest:expr),*) => (<[()]>::len(&[$(hset!(@single $rest)),*]));
+    (@subst $($x:tt)*) => (());
+    (@count $($rest:expr),*) => (<[()]>::len(&[$($crate::hset!(@subst $rest)),*]));
 
     () => { std::collections::HashSet::new() };
 
-    ($($key:expr,)+) => { hset!($($key),+) };
-
-    ($($key:expr),*) => {{
-        let cap = hset!(@count $($key),*);
+    ($($key:expr),+ $(,)?) => {{
+        let cap = $crate::hset!(@count $($key),*);
         let mut set = std::collections::HashSet::with_capacity(cap);
         $(
             let _ = set.insert($key);
@@ -98,10 +94,8 @@ macro_rules! hset {
 #[macro_export]
 macro_rules! btmap {
     () => { std::collections::BTreeMap::new() };
-    // trailing comma case
-    ($($key:expr => $value:expr,)+) => {btmap!($($key => $value),+)};
 
-    ( $($key:expr => $value:expr),* ) => {{
+    ( $($key:expr => $value:expr),+ $(,)? ) => {{
         let mut map = std::collections::BTreeMap::new();
         $(
             let _ = map.insert($key, $value);
@@ -131,9 +125,7 @@ macro_rules! btmap {
 macro_rules! btset {
     () => { std::collections::BTreeSet::new() };
 
-    ($($key:expr,)+) => {btset!($($key),+)};
-
-    ( $($key:expr),* ) => {{
+    ( $($key:expr),+ $(,)? ) => {{
         let mut set = std::collections::BTreeSet::new();
         $(
             set.insert($key);
@@ -181,9 +173,7 @@ macro_rules! lkl {
         lkl
     }};
 
-    ($($key:expr,)+) => (lkl!($($key),+));
-
-    ( $($key:expr),* ) => {{
+    ( $($key:expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
             lkl.push_back($key);
@@ -232,9 +222,7 @@ macro_rules! flkl {
         lkl
     }};
 
-    ($($key:expr,)+) => (flkl!($($key),+));
-
-    ( $($key:expr),* ) => {{
+    ( $($key:expr),+ $(,)? ) => {{
         let mut lkl = std::collections::LinkedList::new();
         $(
             lkl.push_front($key);
@@ -358,5 +346,15 @@ mod tests {
         let test = flkl!["a"; 2];
 
         assert_eq!(expected, test);
+    }
+
+    #[test]
+    fn trailing_all() {
+        hmap!{"a" => 1,};
+        hset!{1,};
+        btmap!{"a" => 1,};
+        btset!{1,};
+        lkl!{1,};
+        flkl!{1,};
     }
 }
