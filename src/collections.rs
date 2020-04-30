@@ -25,15 +25,18 @@ macro_rules! hmap {
     (@single $($x:tt)*) => (());
     (@count $($rest:expr),*) => (<[()]>::len(&[$(hmap!(@single $rest)),*]));
 
+    () => { std::collections::HashMap::new() };
+
     ($($key:expr => $value:expr,)+) => { hmap!($($key => $value),+) };
-    ($($key:expr => $value:expr),*) => ({
+
+    ($($key:expr => $value:expr),*) => {{
             let cap = hmap!(@count $($key),*);
-            let mut map = ::std::collections::HashMap::with_capacity(cap);
+            let mut map = std::collections::HashMap::with_capacity(cap);
             $(
                 let _ = map.insert($key, $value);
             )*
             map
-    });
+    }};
 }
 
 /// Create a [`HashSet`] from a list of elements.
@@ -58,15 +61,18 @@ macro_rules! hset {
     (@single $($x:tt)*) => (());
     (@count $($rest:expr),*) => (<[()]>::len(&[$(hset!(@single $rest)),*]));
 
+    () => { std::collections::HashSet::new() };
+
     ($($key:expr,)+) => { hset!($($key),+) };
-    ($($key:expr),*) => ({
+
+    ($($key:expr),*) => {{
         let cap = hset!(@count $($key),*);
-        let mut set = ::std::collections::HashSet::with_capacity(cap);
+        let mut set = std::collections::HashSet::with_capacity(cap);
         $(
             let _ = set.insert($key);
         )*
         set
-    });
+    }};
 }
 
 /// Create a [`BTreeMap`] from a list of key-value pairs
@@ -91,16 +97,17 @@ macro_rules! hset {
 /// [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html
 #[macro_export]
 macro_rules! btmap {
+    () => { std::collections::BTreeMap::new() };
     // trailing comma case
-    ($($key:expr => $value:expr,)+) => (btmap!($($key => $value),+));
+    ($($key:expr => $value:expr,)+) => {btmap!($($key => $value),+)};
 
-    ( $($key:expr => $value:expr),* ) => ({
+    ( $($key:expr => $value:expr),* ) => {{
         let mut map = std::collections::BTreeMap::new();
         $(
             let _ = map.insert($key, $value);
         )*
         map
-    });
+    }};
 }
 
 /// Create a [`BTreeSet`] from a list of elements.
@@ -122,15 +129,17 @@ macro_rules! btmap {
 /// [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BTreeSet.html
 #[macro_export]
 macro_rules! btset {
-    ($($key:expr,)+) => (btset!($($key),+));
+    () => { std::collections::BTreeSet::new() };
 
-    ( $($key:expr),* ) => ({
+    ($($key:expr,)+) => {btset!($($key),+)};
+
+    ( $($key:expr),* ) => {{
         let mut set = std::collections::BTreeSet::new();
         $(
             set.insert($key);
         )*
         set
-    });
+    }};
 }
 
 /// Create a [`LinkedList`] from a list of elements. It pushes the element to the back of
@@ -164,6 +173,8 @@ macro_rules! btset {
 /// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! lkl {
+    () => { std::collections::LinkedList::new() };
+
     ($elem:expr; $n:expr) => {{
         let mut lkl = std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_back($elem));
@@ -213,6 +224,8 @@ macro_rules! lkl {
 /// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! flkl {
+    () => { std::collections::LinkedList::new() };
+
     ($elem:expr; $n:expr) => {{
         let mut lkl = std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_front($elem));
@@ -232,6 +245,7 @@ macro_rules! flkl {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::*;
 
     #[test]
     fn hmap() {
@@ -239,17 +253,24 @@ mod tests {
             "a" => 1,
             "b" => 2,
         };
+        let map2: HashMap<&str, i32, _> = hmap!{};
         assert_eq!(map["a"], 1);
         assert_eq!(map["b"], 2);
         assert_eq!(map.get("c"), None);
+
+        assert!(map2.is_empty());
+
     }
 
     #[test]
     fn hset() {
-        let set = hset! {"a", "b"};
+        let set = hset!{"a", "b"};
+        let set2: HashSet<&str> = hset!{};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
+
+        assert!(set2.is_empty());
     }
 
     #[test]
@@ -258,17 +279,23 @@ mod tests {
             "a" => 1,
             "b" => 2,
         };
+        let map2: BTreeMap<&str, i32> = btmap!{};
         assert_eq!(map["a"], 1);
         assert_eq!(map["b"], 2);
         assert_eq!(map.get("c"), None);
+
+        assert!(map2.is_empty());
     }
 
     #[test]
     fn btset() {
-        let set = btset! {"a", "b"};
+        let set = btset!{"a", "b"};
+        let set2: BTreeSet<&str> = btset!{};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
+
+        assert!(set2.is_empty());
     }
 
     #[test]
@@ -283,10 +310,13 @@ mod tests {
         assert!(lkl.contains(&"b"));
         assert!(!lkl.contains(&"c"));
         assert_eq!(expected, lkl);
+
+        const LKL2: LinkedList<&str> = lkl![];
+        assert!(LKL2.is_empty());
     }
 
     #[test]
-    fn lkl_reapeat() {
+    fn lkl_repeat() {
         use std::collections::LinkedList;
         let expected = {
             let mut l = LinkedList::new();
@@ -311,10 +341,13 @@ mod tests {
         assert!(lkl.contains(&"b"));
         assert!(!lkl.contains(&"c"));
         assert_eq!(expected, lkl);
+
+        const LKL2: LinkedList<&str> = flkl![];
+        assert!(LKL2.is_empty());
     }
 
     #[test]
-    fn flkl_reapeat() {
+    fn flkl_repeat() {
         use std::collections::LinkedList;
         let expected = {
             let mut l = LinkedList::new();

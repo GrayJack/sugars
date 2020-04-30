@@ -1,6 +1,9 @@
 # Changes
 
 ## Unreleased ~ master
+ - Add empty pattern for collections macros already created;
+
+## 1.1.0
  - Add for all comprehensions a Implicit-`for` (or Just-`in`) version
  - Add new version of `lkl` and `flkl` that works almost like array init syntax (`[$init_elem; $n_times]`)
 
