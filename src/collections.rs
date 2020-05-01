@@ -148,6 +148,8 @@ macro_rules! btset {
 ///
 /// assert_eq!(deque, deque2);
 /// # }
+///
+/// [`VecDeque`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html
 #[macro_export]
 macro_rules! deque {
     () => { std::collections::VecDeque::new() };
@@ -278,6 +280,8 @@ macro_rules! flkl {
 ///     println!("{}", i);
 /// }
 /// # }
+///
+/// [`BinaryHeap`]: https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html
 #[macro_export]
 macro_rules! bheap {
     () => { std::collections::BinaryHeap::new() };
