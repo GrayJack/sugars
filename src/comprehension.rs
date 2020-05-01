@@ -1,5 +1,68 @@
 //! Module for macros behaving as comprehensions
 
+/// Generic lazy iterator comprehensions.
+///
+/// ## Limitations
+///  * Only 3 nested comprehensions
+///
+/// # Examples:
+/// ```rust,ignore
+/// # use std::collections::*;
+/// use sugars::c;
+/// # fn main() {
+/// let w: Vec<_> = c![x; x in 1..10].collect();
+/// let z: HashSet<_> = c!{x; x in 1..10, if x%2 == 0}.collect();
+/// # }
+/// ```
+#[macro_export]
+macro_rules! c {
+    ($e:expr; $i:pat in $iter:expr) => { $iter.map(|$i| $e) };
+
+    ($e:expr; $i:pat in $iter:expr, if $cond:expr) => {{
+        $iter.filter(|$i| $cond).map(|$i| $e)
+    }};
+
+    ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr) => {{
+        $iter1.flat_map(|$i1| {
+            $iter2.map(move |$i2| $e)
+        })
+    }};
+
+    ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, if $cond:expr) => {{
+        $iter1.flat_map(|$i1| {
+            $iter2.filter_map(move |$i2| {
+                if $cond {
+                    Some($e)
+                } else {
+                    None
+                }
+            })
+        })
+    }};
+
+    ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, $i3:pat in $iter3:expr) => {{
+        $iter1.flat_map(|$i1| {
+            $iter2.flat_map(move |$i2| {
+                $iter3.map(move |$i3| $e)
+            })
+        })
+    }};
+
+    ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, $i3:pat in $iter3:expr, if $cond:expr) => {{
+        $iter1.flat_map(|$i1| {
+            $iter2.flat_map(move |$i2| {
+                $iter3.filter_map(move |$i3| {
+                    if $cond {
+                        Some($e)
+                    } else {
+                        None
+                    }
+                })
+            })
+        })
+    }};
+}
+
 /// Macro to [`Vec`] collection comprehensions
 ///
 /// Supports 3 types of grammars: Haskell-like, Python-like and Just-`in`
