@@ -42,7 +42,7 @@
 //! assert_eq!(Box::new(10), boxed!(10));
 //! ```
 //!
-//! **hmap** and **btmap**: Usage are the same, just change HashMap to BTreeMap and hmap! to btmap!
+//! **hmap** and **btmap**: Usage are the same, just change de Types and macros
 //! ```rust,ignore
 //! let mut map = HashMap::new();
 //! map.insert("1", 1);
@@ -53,7 +53,7 @@
 //! assert_eq!(map, map2);
 //! ```
 //!
-//! **hset** and **btset**: Usage are the same, just change HashSet to BTreeSet and hset! to btset!
+//! **bheap**, **hset**, **btset** and **deque**: Usage are the same, just change de Types and macros
 //! ```rust,ignore
 //! let mut set = HashSet::new();
 //! map.insert(1);
@@ -75,7 +75,16 @@
 //! sleep!(10 sec)
 //! ```
 //!
-//! **cvec**: Notice that `cvec` can be nested up to 3 times max
+//! **c**: Notice that it generates a lazy Iterator, so the user has to deal with that
+//!
+//! This has the following syntax: `c![<expr>; <<pattern> in <iterator>, >...[, if <condition>]]`
+//! ```rust,ignore
+//! c![x; x in 0..10].collect::<Vec<_>>();
+//! c![i*2; &i in vec.iter()].collect::<HashSet<_>>();
+//! c![i+j; i in vec1.into_iter(), j in vec2.into_iter(), if i%2 == 0 && j%2 != 0].collect::<Vec<_>>();
+//! ```
+//!
+//! **cvec**, **cdeque**, **clkl** and **cbheap**: Usage are the same, just change de Types and macros
 //! ```rust,ignore
 //! // Normal comprehension
 //! cvec![x; x in 0..10];
@@ -84,7 +93,7 @@
 //! cvec![x; x in 0..10, if x % 2 == 0];
 //! ```
 //!
-//! **cset** and **cbtset**: Notice that `cset`/`cbtset` cannot be nested. Usage are the same, just change `HashSet` to `BTreeSet` and `cset!` to `cbtset!`
+//! **cset** and **cbtset**: Usage are the same, just change de Types and macros
 //! ```rust,ignore
 //! // Normal comprehension
 //! cset!{x; x in 0..10};
@@ -93,7 +102,7 @@
 //! cset!{x; x in 0..10, if x % 2 == 0};
 //! ```
 //!
-//! **cmap** and **cbtmap**: Notice that `cmap`/`cbtmap` cannot be nested. Usage are the same, just change `HashMap` to `BTreeMap` and `cmap!` to `cbtmap!`
+//! **cmap** and **cbtmap**: Usage are the same, just change de Types and macros
 //! ```rust,ignore
 //! // Normal comprehension
 //! cmap!{x => x*2; x in 1..10};
