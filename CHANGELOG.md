@@ -1,6 +1,7 @@
 # Changes
 
 ## Unreleased ~ master ~ 2.0-dev
+ - Add `rwlock!` macro to create `RwLock` types
  - Remove haskell-like and python-like comprehension syntax
  - Re-implement comprehensions based on the `c!` macro
  - Add a comprehension macro for lazy iterators: `c!`

@@ -28,6 +28,7 @@
 //!     * **mutex**: A simple macro to make a new [`Mutex`] value.²
 //!     * **refcell**: A simple macro to make a new [`RefCell`] value.²
 //!     * **rc**: A simple macro to make a new [`Rc`] value.²
+//!     * **rwlock**: A simple macro to make a new [`RwLock`] value.²
 //!  * **Time/Duration:**
 //!     * **dur**: Creates a [`Duration`] object following a time pattern¹
 //!     * **sleep**: Makes a thread sleep a amount following a time pattern¹
@@ -133,6 +134,7 @@
 //! [`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
 //! [`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
 //! [`RefCell`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
+//! [`RwLock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
 //!
 //! [`Duration`]: https://doc.rust-lang.org/std/time/struct.Duration.html
 

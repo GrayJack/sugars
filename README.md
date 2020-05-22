@@ -36,6 +36,7 @@ on Rust ecosystem.
     * **mutex**: A simple macro to make a new `Mutex` value.²
     * **refcell**: A simple macro to make a new `RefCell` value.²
     * **rc**: A simple macro to make a new `Rc` value.²
+    * **rwlock**: A simple macro to make a new [`RwLock`] value.²
  * **Time/Duration:**
     * **dur**: Creates a `Duration` object following a time pattern¹
     * **sleep**: Makes a thread sleep a amount following a time pattern¹

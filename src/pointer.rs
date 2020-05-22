@@ -186,6 +186,35 @@ macro_rules! mutex {
     };
 }
 
+/// A simple macro to make a new [`RwLock`] value.
+///
+/// It is also able to create tuples if given more than one parameter.
+///
+/// # Example
+/// ```
+/// use std::sync::RwLock;
+/// use sugars::rwlock;
+/// # fn main() {
+/// let rwlk = rwlock!(String::new());
+/// let mut read = rwlk.read().unwrap();
+/// println("{}", read);
+/// # }
+/// ```
+///
+/// [`RwLock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
+#[macro_export]
+macro_rules! rwlock {
+    ($e:expr) => {
+        std::sync::RwLock::new($e)
+    };
+    ($e:expr,) => {
+        $crate::mutex!($e)
+    };
+    ($($e:expr),+ $(,)?) => {
+        ($($crate::mutex!($e)),+,)
+    };
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -319,7 +348,7 @@ mod tests {
     }
 
     #[test]
-    fn mutex() -> Result<(), Box<dyn std::error::Error>> {
+    fn mutex() {
         use std::sync::Mutex;
 
         let mutex_expected = Mutex::new(Some("String"));
@@ -328,7 +357,17 @@ mod tests {
         let expected = mutex_expected.lock().unwrap();
         let test = mutex_test.lock().unwrap();
         assert_eq!(expected.is_some(), test.is_some());
+    }
 
-        Ok(())
+    #[test]
+    fn rwlock() {
+        use std::sync::RwLock;
+
+        let rwlk_expected = RwLock::new(Some("String"));
+        let rwlk_test = rwlock!(Some("String"));
+
+        let expected = rwlk_expected.read().unwrap();
+        let test = rwlk_test.read().unwrap();
+        assert_eq!(expected.is_some(), test.is_some());
     }
 }

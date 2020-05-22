@@ -14,7 +14,6 @@ exclude = ["/.travis.yml", "/.github"]
 edition = "2018"
 
 [badges]
-travis-ci = { repository = "GrayJack/sugars" }
 maintenance = { status = "actively-developed" }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
