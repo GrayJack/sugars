@@ -7,12 +7,15 @@
 //!     * **btmap**: Create a [`BTreeMap`] from a list of key-value pairs
 //!     * **btset**: Create a [`BTreeSet`] from a list of elements
 //!     * **deque**: Create a [`VecDeque`] from a list of elements
-//!     * **flkl**: Create a [`LinkedList`] from a list of elements, adding each element to the start of the list.
+//!     * **flkl**: Create a [`LinkedList`] from a list of elements, adding each element
+//!       to the start of the list.
 //!     * **hmap**: Create a [`HashMap`] from a list of key-value pairs
 //!     * **hset**: Create a [`HashSet`] from a list of elements
-//!     * **lkl**: Create a [`LinkedList`] from a list of elements, adding each element to the end of the list.
+//!     * **lkl**: Create a [`LinkedList`] from a list of elements, adding each element to
+//!       the end of the list.
 //!  * **Comprehensions:**
-//!     * **c**: Macro to make a lazy Iterator collection comprehensions, all other are base on this one.
+//!     * **c**: Macro to make a lazy Iterator collection comprehensions, all other are
+//!       base on this one.
 //!     * **cbheap**: Macro to [`BinaryHeap`] collection comprehensions
 //!     * **cbtmap**: Macro to [`BTreeMap`] collection comprehensions
 //!     * **cbtset**: Macro to [`BTreeSet`] collection comprehensions
@@ -38,37 +41,48 @@
 //!  2. Also can return a tuple if is given more than one parameter
 //!
 //! ## Examples
-//! **arc**, **boxed**, **cell**, **cow**, **mutex** and **refcell**: Usage are mostly the same, just change de Types and macros
-//! ```rust,ignore
+//! **arc**, **boxed**, **cell**, **cow**, **mutex** and **refcell**: Usage are mostly the
+//! same, just change de Types and macros
+//! ```rust
+//! use sugars::boxed;
 //! assert_eq!(Box::new(10), boxed!(10));
 //! ```
 //!
 //! **hmap** and **btmap**: Usage are the same, just change de Types and macros
-//! ```rust,ignore
+//! ```rust
+//! use std::collections::HashMap;
+//! use sugars::hmap;
+//!
 //! let mut map = HashMap::new();
 //! map.insert("1", 1);
 //! map.insert("2", 2);
 //!
-//! let map2 = hmap!{"1" => 1, "2" => 2};
+//! let map2 = hmap! {"1" => 1, "2" => 2};
 //!
 //! assert_eq!(map, map2);
 //! ```
 //!
-//! **bheap**, **hset**, **btset** and **deque**: Usage are the same, just change de Types and macros
-//! ```rust,ignore
-//! let mut set = HashSet::new();
-//! map.insert(1);
-//! map.insert(2);
+//! **bheap**, **hset**, **btset** and **deque**: Usage are the same, just change de Types
+//! and macros
+//! ```rust
+//! use std::collections::HashSet;
+//! use sugars::hset;
 //!
-//! let set2 = hset!{1, 2};
+//! let mut set = HashSet::new();
+//! set.insert(1);
+//! set.insert(2);
+//!
+//! let set2 = hset! {1, 2};
 //!
 //! assert_eq!(set, set2);
 //! ```
 //!
 //! **dur** and **sleep**
-//! ```rust,ignore
+//! ```rust
+//! use sugars::{dur, sleep};
+//!
 //! let d1 = dur!(10 sec);
-//! let d2 = Duration::from_secs(10);
+//! let d2 = std::time::Duration::from_secs(10);
 //!
 //! assert_eq!(d1, d2);
 //!
@@ -78,15 +92,23 @@
 //!
 //! **c**: Notice that it generates a lazy Iterator, so the user has to deal with that
 //!
-//! This has the following syntax: `c![<expr>; <<pattern> in <iterator>, >...[, if <condition>]]`
-//! ```rust,ignore
-//! c![x; x in 0..10].collect::<Vec<_>>();
-//! c![i*2; &i in vec.iter()].collect::<HashSet<_>>();
-//! c![i+j; i in vec1.into_iter(), j in vec2.into_iter(), if i%2 == 0 && j%2 != 0].collect::<Vec<_>>();
+//! This has the following syntax: `c![<expr>; <<pattern> in <iterator>, >...[, if
+//! <condition>]]`
+//! ```rust
+//! use std::collections::HashSet;
+//! use sugars::c;
+//!
+//! let vec = c![x; x in 0..10].collect::<Vec<_>>();
+//! let set = c![i*2; &i in vec.iter()].collect::<HashSet<_>>();
+//! let vec2 = c![i+j; i in vec.into_iter(), j in set.iter(), if i%2 == 0 && j%2 !=
+//! 0].collect::<Vec<_>>();
 //! ```
 //!
-//! **cvec**, **cdeque**, **clkl** and **cbheap**: Usage are the same, just change de Types and macros
-//! ```rust,ignore
+//! **cvec**, **cdeque**, **clkl** and **cbheap**: Usage are the same, just change de
+//! Types and macros
+//! ```rust
+//! use sugars::cvec;
+//!
 //! // Normal comprehension
 //! cvec![x; x in 0..10];
 //!
@@ -95,25 +117,31 @@
 //! ```
 //!
 //! **cset** and **cbtset**: Usage are the same, just change de Types and macros
-//! ```rust,ignore
+//! ```
+//! use sugars::cset;
+//!
 //! // Normal comprehension
-//! cset!{x; x in 0..10};
+//! cset! {x; x in 0..10};
 //!
 //! // You can filter as well
-//! cset!{x; x in 0..10, if x % 2 == 0};
+//! cset! {x; x in 0..10, if x % 2 == 0};
 //! ```
 //!
 //! **cmap** and **cbtmap**: Usage are the same, just change de Types and macros
-//! ```rust,ignore
+//! ```rust
+//! use sugars::cmap;
+//!
 //! // Normal comprehension
-//! cmap!{x => x*2; x in 1..10};
+//! cmap! {x => x*2; x in 1..10};
 //!
 //! // You can filter as well
-//! cmap!{x => x*2; x in 1..10, if x%2 == 0};
+//! cmap! {x => x*2; x in 1..10, if x%2 == 0};
 //! ```
 //!
 //! **time**
-//! ```rust,ignore
+//! ```rust
+//! use sugars::{time, sleep};
+//!
 //! // Should print to stderr ≈ 2.0000 seconds
 //! time!( sleep!(2 sec) );
 //!
