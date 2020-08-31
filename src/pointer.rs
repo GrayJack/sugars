@@ -56,22 +56,43 @@ macro_rules! rc {
     };
 }
 
-/// A simple macro to make a new `Cow::Owned` value.
+/// A macro to create [`Cow`] type. It has 3 ways to use: Implicit borrowed, borrowed and
+/// owned.
 ///
-/// # Example
+/// # Examples
+///
 /// ```
 /// use std::borrow::Cow;
 /// use sugars::cow;
-/// # fn main() {
-/// let expected: Cow<str> = Cow::Owned(String::from("Hello Cow"));
-/// let test: Cow<str> = cow!(String::from("Hello Cow"));
+///
+/// let s = String::from("Hello");
+///
+/// let implicity_borrowed = cow!(s);
+/// let borrowed = cow!(borrow s);
+/// let owned: Cow<'_, String> = cow!(own String::from("Owned"));
+/// ```
+///
+/// ```
+/// use std::borrow::Cow;
+/// use sugars::cow;
+///
+/// let s = String::from("Help");
+/// let expected: Cow<_> = Cow::Borrowed(&s);
+/// let test: Cow<_> = cow!(s);
 ///
 /// assert_eq!(expected, test);
-/// # }
 /// ```
+///
+/// [`Cow`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html
 #[macro_export]
 macro_rules! cow {
-    ($e:expr) => {
+    ($e:ident) => {
+        std::borrow::Cow::Borrowed(&$e)
+    };
+    (borrow $e:ident) => {
+        std::borrow::Cow::Borrowed(&$e)
+    };
+    (own $e:expr) => {
         std::borrow::Cow::Owned($e)
     };
 }
@@ -84,9 +105,8 @@ macro_rules! cow {
 /// ```
 /// use std::cell::Cell;
 /// use sugars::cell;
-/// # fn main() {
+///
 /// assert_eq!(Cell::new(10), cell!(10));
-/// # }
 /// ```
 ///
 /// [`Cell`]: https://doc.rust-lang.org/std/cell/struct.Cell.html
@@ -197,7 +217,7 @@ macro_rules! mutex {
 /// # fn main() {
 /// let rwlk = rwlock!(String::new());
 /// let mut read = rwlk.read().unwrap();
-/// println("{}", read);
+/// println!("{}", read);
 /// # }
 /// ```
 ///
@@ -268,13 +288,24 @@ mod tests {
         #[derive(Clone, PartialEq, Debug)]
         struct Test(i32);
 
+        let test1 = String::from("Hello Cow");
+        let expected: Cow<str> = Cow::Borrowed(&test1);
+        let test: Cow<str> = cow!(test1);
+
+        assert_eq!(expected, test);
+
+        let test2 = Test(10);
+        let expected: Cow<Test> = Cow::Borrowed(&test2);
+        let test = cow!(borrow test2);
+        assert_eq!(expected, test);
+
         let expected: Cow<str> = Cow::Owned(String::from("Hello Cow"));
-        let test: Cow<str> = cow!(String::from("Hello Cow"));
+        let test: Cow<str> = cow!(own String::from("Hello Cow"));
 
         assert_eq!(expected, test);
 
         let expected: Cow<Test> = Cow::Owned(Test(10));
-        let test = cow!(Test(10));
+        let test = cow!(own Test(10));
         assert_eq!(expected, test);
     }
 
@@ -319,7 +350,10 @@ mod tests {
     fn refcell_tuples() {
         use std::cell::RefCell;
         let expected1 = (RefCell::new(10), RefCell::new(11));
-        let expected2 = (RefCell::new(Some("String")), RefCell::new(Some("other_str")));
+        let expected2 = (
+            RefCell::new(Some("String")),
+            RefCell::new(Some("other_str")),
+        );
         assert_eq!(expected1, refcell!(10, 11));
         assert_eq!(expected2, refcell!(Some("String"), Some("other_str")));
     }
