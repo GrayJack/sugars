@@ -32,7 +32,7 @@ on Rust ecosystem.
     * **arc**: A simple macro to make a new `Arc` value.²
     * **boxed**: A simple macro to make a new `Box` value.²
     * **cell**: A simple macro to make a new `Cell` value.²
-    * **cow**: A simple macro to make a new `Cow::Owned` value.
+    * **cow**: A simple macro to make a new `Cow` value.
     * **mutex**: A simple macro to make a new `Mutex` value.²
     * **refcell**: A simple macro to make a new `RefCell` value.²
     * **rc**: A simple macro to make a new `Rc` value.²
