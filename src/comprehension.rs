@@ -8,13 +8,11 @@
 ///  * Only 3 nested comprehensions
 ///
 /// # Examples:
-/// ```rust,ignore
+/// ```rust
 /// # use std::collections::*;
 /// use sugars::c;
-/// # fn main() {
 /// let w: Vec<_> = c![x; x in 1..10].collect();
 /// let z: HashSet<_> = c!{x; x in 1..10, if x%2 == 0}.collect();
-/// # }
 /// ```
 #[macro_export]
 macro_rules! c {
