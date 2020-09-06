@@ -1,7 +1,7 @@
 # Changes
 
 ## 2.0.0
- - Change behaviour of the `cow!` macro
+ - Change behavior of the `cow!` macro
  - Add `rwlock!` macro to create `RwLock` types
  - Remove haskell-like and python-like comprehension syntax
  - Re-implement comprehensions based on the `c!` macro
