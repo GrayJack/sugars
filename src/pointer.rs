@@ -1,6 +1,6 @@
 //! A module related to the Rust standard smart pointer
 
-/// A simple macro to make a new [`Box`] value.
+/// Create a new [`Box`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -29,7 +29,7 @@ macro_rules! boxed {
     };
 }
 
-/// A simple macro to make a new [`Rc`] value.
+/// Create a new [`Rc`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -56,8 +56,9 @@ macro_rules! rc {
     };
 }
 
-/// A macro to create [`Cow`] type. It has 3 ways to use: Implicit borrowed, borrowed and
-/// owned.
+/// Create new [`Cow`] type.
+///
+/// It has 3 ways to use: Implicit borrowed, borrowed and owned.
 ///
 /// # Examples
 ///
@@ -97,7 +98,7 @@ macro_rules! cow {
     };
 }
 
-/// A simple macro to make a new [`Cell`] value.
+/// Create a new [`Cell`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -123,7 +124,7 @@ macro_rules! cell {
     };
 }
 
-/// A simple macro to make a new [`RefCell`] value.
+/// Create a new [`RefCell`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -150,7 +151,7 @@ macro_rules! refcell {
     };
 }
 
-/// A simple macro to make a new [`Arc`] value.
+/// Create a new [`Arc`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -177,7 +178,7 @@ macro_rules! arc {
     };
 }
 
-/// A simple macro to make a new [`Mutex`] value.
+/// Create a new [`Mutex`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
@@ -206,7 +207,7 @@ macro_rules! mutex {
     };
 }
 
-/// A simple macro to make a new [`RwLock`] value.
+/// Create a new [`RwLock`].
 ///
 /// It is also able to create tuples if given more than one parameter.
 ///
