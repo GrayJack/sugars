@@ -7,7 +7,7 @@ macro_rules! count {
     ($($rest: expr),*) => (<[()]>::len(&[$($crate::count!(@subst $rest)),*]));
 }
 
-/// Create a [`HashMap`] from a list of key-value pairs
+/// Create a [`HashMap`] from a list of key-value pairs.
 ///
 /// # Example
 ///
@@ -72,7 +72,7 @@ macro_rules! hset {
     }};
 }
 
-/// Create a [`BTreeMap`] from a list of key-value pairs
+/// Create a [`BTreeMap`] from a list of key-value pairs.
 ///
 /// # Example
 ///
@@ -309,19 +309,18 @@ mod tests {
             "a" => 1,
             "b" => 2,
         };
-        let map2: HashMap<&str, i32, _> = hmap!{};
+        let map2: HashMap<&str, i32, _> = hmap! {};
         assert_eq!(map["a"], 1);
         assert_eq!(map["b"], 2);
         assert_eq!(map.get("c"), None);
 
         assert!(map2.is_empty());
-
     }
 
     #[test]
     fn hset() {
-        let set = hset!{"a", "b"};
-        let set2: HashSet<&str> = hset!{};
+        let set = hset! {"a", "b"};
+        let set2: HashSet<&str> = hset! {};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
@@ -335,7 +334,7 @@ mod tests {
             "a" => 1,
             "b" => 2,
         };
-        let map2: BTreeMap<&str, i32> = btmap!{};
+        let map2: BTreeMap<&str, i32> = btmap! {};
         assert_eq!(map["a"], 1);
         assert_eq!(map["b"], 2);
         assert_eq!(map.get("c"), None);
@@ -345,8 +344,8 @@ mod tests {
 
     #[test]
     fn btset() {
-        let set = btset!{"a", "b"};
-        let set2: BTreeSet<&str> = btset!{};
+        let set = btset! {"a", "b"};
+        let set2: BTreeSet<&str> = btset! {};
         assert!(set.contains("a"));
         assert!(set.contains("b"));
         assert!(!set.contains("c"));
@@ -453,10 +452,10 @@ mod tests {
 
     #[test]
     fn trailing_all() {
-        hmap!{"a" => 1,};
-        hset!{1,};
-        btmap!{"a" => 1,};
-        btset!{1,};
+        hmap! {"a" => 1,};
+        hset! {1,};
+        btmap! {"a" => 1,};
+        btset! {1,};
         deque![1,];
         lkl![1,];
         flkl![1,];

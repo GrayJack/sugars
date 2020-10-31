@@ -16,54 +16,36 @@
 /// ```
 #[macro_export]
 macro_rules! c {
-    ($e:expr; $i:pat in $iter:expr) => { $iter.map(|$i| $e) };
+    ($e:expr; $i:pat in $iter:expr) => {
+        $iter.map(|$i| $e)
+    };
 
     ($e:expr; $i:pat in $iter:expr, if $cond:expr) => {{
         $iter.filter(|$i| $cond).map(|$i| $e)
     }};
 
     ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr) => {{
-        $iter1.flat_map(|$i1| {
-            $iter2.map(move |$i2| $e)
-        })
+        $iter1.flat_map(|$i1| $iter2.map(move |$i2| $e))
     }};
 
     ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, if $cond:expr) => {{
-        $iter1.flat_map(|$i1| {
-            $iter2.filter_map(move |$i2| {
-                if $cond {
-                    Some($e)
-                } else {
-                    None
-                }
-            })
-        })
+        $iter1.flat_map(|$i1| $iter2.filter_map(move |$i2| if $cond { Some($e) } else { None }))
     }};
 
     ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, $i3:pat in $iter3:expr) => {{
-        $iter1.flat_map(|$i1| {
-            $iter2.flat_map(move |$i2| {
-                $iter3.map(move |$i3| $e)
-            })
-        })
+        $iter1.flat_map(|$i1| $iter2.flat_map(move |$i2| $iter3.map(move |$i3| $e)))
     }};
 
     ($e:expr; $i1:pat in $iter1:expr, $i2:pat in $iter2:expr, $i3:pat in $iter3:expr, if $cond:expr) => {{
         $iter1.flat_map(|$i1| {
             $iter2.flat_map(move |$i2| {
-                $iter3.filter_map(move |$i3| {
-                    if $cond {
-                        Some($e)
-                    } else {
-                        None
-                    }
-                })
+                $iter3.filter_map(move |$i3| if $cond { Some($e) } else { None })
             })
         })
     }};
 }
 
-/// Macro to [`Vec`] collection comprehensions
+/// Build [`Vec`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -84,7 +66,7 @@ macro_rules! cvec {
     };
 }
 
-/// Macro to [`VecDeque`] collection comprehensions
+/// Build [`VecDeque`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -108,7 +90,7 @@ macro_rules! cdeque {
     }};
 }
 
-/// Macro to [`LinkedList`] collection comprehensions
+/// Build [`LinkedList`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -132,7 +114,7 @@ macro_rules! clkl {
     }};
 }
 
-/// Macro to [`BinaryHeap`] collection comprehensions
+/// Build [`BinaryHeap`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -156,7 +138,7 @@ macro_rules! cbheap {
     }};
 }
 
-/// Macro to [`HashMap`] collection comprehensions
+/// Build [`HashMap`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -181,7 +163,7 @@ macro_rules! cmap {
     }};
 }
 
-/// Macro to [`HashSet`] collection comprehensions
+/// Build [`HashSet`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -205,7 +187,7 @@ macro_rules! cset {
     }};
 }
 
-/// Macro to [`BTreeMap`] collection comprehensions
+/// Build [`BTreeMap`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -230,7 +212,7 @@ macro_rules! cbtmap {
     }};
 }
 
-/// Macro to [`BTreeSet`] collection comprehensions
+/// Build [`BTreeSet`] from collection iterator comprehensions.
 ///
 /// ## Limitations
 ///  * Only 3 nested comprehensions
@@ -256,7 +238,7 @@ macro_rules! cbtset {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::{HashMap, HashSet, BTreeMap, BTreeSet};
+    use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
     #[test]
     fn c_no_conditional() {
@@ -287,7 +269,8 @@ mod tests {
     fn c_2_nested_with_conditional() {
         let expected = vec![2, 4, 6, 8];
         let nested = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-        let test: Vec<_> = c![x; y in nested.into_iter(), x in y.into_iter(), if x % 2 == 0].collect();
+        let test: Vec<_> =
+            c![x; y in nested.into_iter(), x in y.into_iter(), if x % 2 == 0].collect();
 
         assert_eq!(expected, test);
     }
@@ -295,10 +278,26 @@ mod tests {
     #[test]
     fn c_3_nested_no_conditional() {
         let expected = vec![
-            (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2),
-            (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4),
-            (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4),
-            (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4),
+            (1, 1, 1),
+            (1, 1, 2),
+            (1, 1, 3),
+            (1, 1, 4),
+            (1, 2, 2),
+            (1, 2, 3),
+            (1, 2, 4),
+            (1, 3, 3),
+            (1, 3, 4),
+            (1, 4, 4),
+            (2, 2, 2),
+            (2, 2, 3),
+            (2, 2, 4),
+            (2, 3, 3),
+            (2, 3, 4),
+            (2, 4, 4),
+            (3, 3, 3),
+            (3, 3, 4),
+            (3, 4, 4),
+            (4, 4, 4),
         ];
         let n: i32 = 4;
         let test: Vec<_> = c![(x, y, z); x in 1..=n, y in x..=n, z in y..=n].collect();
@@ -310,7 +309,9 @@ mod tests {
     fn c_3_nested_with_conditional() {
         let expected = vec![(3, 4, 5), (6, 8, 10)];
         let n: i32 = 10;
-        let test: Vec<_> = c![(x,y, z); x in 1..=n, y in x..=n, z in y..=n, if x.pow(2) + y.pow(2) == z.pow(2)].collect();
+        let test: Vec<_> =
+            c![(x,y, z); x in 1..=n, y in x..=n, z in y..=n, if x.pow(2) + y.pow(2) == z.pow(2)]
+                .collect();
 
         assert_eq!(expected, test);
     }
@@ -352,10 +353,26 @@ mod tests {
     #[test]
     fn cvec_3_nested_no_conditional() {
         let expected = vec![
-            (1, 1, 1), (1, 1, 2), (1, 1, 3), (1, 1, 4), (1, 2, 2),
-            (1, 2, 3), (1, 2, 4), (1, 3, 3), (1, 3, 4), (1, 4, 4),
-            (2, 2, 2), (2, 2, 3), (2, 2, 4), (2, 3, 3), (2, 3, 4),
-            (2, 4, 4), (3, 3, 3), (3, 3, 4), (3, 4, 4), (4, 4, 4),
+            (1, 1, 1),
+            (1, 1, 2),
+            (1, 1, 3),
+            (1, 1, 4),
+            (1, 2, 2),
+            (1, 2, 3),
+            (1, 2, 4),
+            (1, 3, 3),
+            (1, 3, 4),
+            (1, 4, 4),
+            (2, 2, 2),
+            (2, 2, 3),
+            (2, 2, 4),
+            (2, 3, 3),
+            (2, 3, 4),
+            (2, 4, 4),
+            (3, 3, 3),
+            (3, 3, 4),
+            (3, 4, 4),
+            (4, 4, 4),
         ];
         let n: i32 = 4;
         let test = cvec![(x, y, z); x in 1..=n, y in x..=n, z in y..=n];
@@ -367,7 +384,8 @@ mod tests {
     fn cvec_just_in_3_nested_with_conditional() {
         let expected = vec![(3, 4, 5), (6, 8, 10)];
         let n: i32 = 10;
-        let test = cvec![(x,y, z); x in 1..=n, y in x..=n, z in y..=n, if x.pow(2) + y.pow(2) == z.pow(2)];
+        let test =
+            cvec![(x,y, z); x in 1..=n, y in x..=n, z in y..=n, if x.pow(2) + y.pow(2) == z.pow(2)];
 
         assert_eq!(expected, test);
     }
@@ -379,7 +397,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i, i + a);
         }
-        let test = cmap!{x => x+a; x in 1..10};
+        let test = cmap! {x => x+a; x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -393,7 +411,7 @@ mod tests {
                 expected.insert(i, i + a);
             }
         }
-        let test = cmap!{x => x+a; x in 1..10, if x%2==0};
+        let test = cmap! {x => x+a; x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -404,7 +422,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i);
         }
-        let test = cset!{x; x in 1..10};
+        let test = cset! {x; x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -417,7 +435,7 @@ mod tests {
                 expected.insert(i);
             }
         }
-        let test = cset!{x; x in 1..10, if x%2==0};
+        let test = cset! {x; x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -429,7 +447,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i, i + a);
         }
-        let test = cbtmap!{x => x+a; x in 1..10};
+        let test = cbtmap! {x => x+a; x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -443,7 +461,7 @@ mod tests {
                 expected.insert(i, i + a);
             }
         }
-        let test = cbtmap!{x => x+a; x in 1..10, if x%2==0};
+        let test = cbtmap! {x => x+a; x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }
@@ -454,7 +472,7 @@ mod tests {
         for i in 1..10 {
             expected.insert(i);
         }
-        let test = cbtset!{x; x in 1..10};
+        let test = cbtset! {x; x in 1..10};
 
         assert_eq!(expected, test);
     }
@@ -467,7 +485,7 @@ mod tests {
                 expected.insert(i);
             }
         }
-        let test = cbtset!{x; x in 1..10, if x%2==0};
+        let test = cbtset! {x; x in 1..10, if x%2==0};
 
         assert_eq!(expected, test);
     }

@@ -1,6 +1,6 @@
 //! Module for time related macros
 
-/// Creates a [`Duration`] object following a time pattern
+/// Creates a [`Duration`] object following a time pattern.
 ///
 /// **Paterns:**
 /// * min: minutes
@@ -61,7 +61,7 @@ macro_rules! dur {
     };
 }
 
-/// Makes a thread sleep a amount following a time pattern
+/// Makes a thread sleep a amount following a time pattern.
 ///
 /// **Paterns:**
 /// * min: minutes
