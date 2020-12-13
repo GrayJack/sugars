@@ -19,7 +19,7 @@
 #[macro_export]
 macro_rules! boxed {
     ($e:expr) => {
-        Box::new($e)
+        ::std::boxed::Box::new($e)
     };
     ($e:expr,) => {
         $crate::boxed!($e)
@@ -46,7 +46,7 @@ macro_rules! boxed {
 #[macro_export]
 macro_rules! rc {
     ($e:expr) => {
-        std::rc::Rc::new($e)
+        ::std::rc::Rc::new($e)
     };
     ($e:expr,) => {
         $crate::rc!($e)
@@ -58,7 +58,11 @@ macro_rules! rc {
 
 /// Create new [`Cow`] type.
 ///
-/// It has 3 ways to use: Implicit borrowed, borrowed and owned.
+/// It has 3 ways to use: auto, borrowed and owned.
+///
+/// - Auto: Uses the [`Cow::from`] in the passed expression
+/// - Borrowed: Uses [`Cow::Borrowed`] in the passed expression
+/// - Owned: Uses [`Cow::Owned`] in the passed expression
 ///
 /// # Examples
 ///
@@ -68,7 +72,7 @@ macro_rules! rc {
 ///
 /// let s = String::from("Hello");
 ///
-/// let implicity_borrowed = cow!(s);
+/// let auto = cow!(&s);
 /// let borrowed = cow!(borrow s);
 /// let owned: Cow<'_, String> = cow!(own String::from("Owned"));
 /// ```
@@ -79,22 +83,22 @@ macro_rules! rc {
 ///
 /// let s = String::from("Help");
 /// let expected: Cow<_> = Cow::Borrowed(&s);
-/// let test: Cow<_> = cow!(s);
+/// let test: Cow<_> = cow!(&s);
 ///
 /// assert_eq!(expected, test);
 /// ```
 ///
-/// [`Cow`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html
+/// [`Cow`]: ::std::borrow::Cow
 #[macro_export]
 macro_rules! cow {
-    ($e:ident) => {
-        std::borrow::Cow::Borrowed(&$e)
+    ($e:expr) => {
+        ::std::borrow::Cow::from($e)
     };
     (borrow $e:ident) => {
-        std::borrow::Cow::Borrowed(&$e)
+        ::std::borrow::Cow::Borrowed(&$e)
     };
     (own $e:expr) => {
-        std::borrow::Cow::Owned($e)
+        ::std::borrow::Cow::Owned($e)
     };
 }
 
@@ -114,7 +118,7 @@ macro_rules! cow {
 #[macro_export]
 macro_rules! cell {
     ($e:expr) => {
-        std::cell::Cell::new($e)
+        ::std::cell::Cell::new($e)
     };
     ($e:expr,) => {
         $crate::cell!($e)
@@ -141,7 +145,7 @@ macro_rules! cell {
 #[macro_export]
 macro_rules! refcell {
     ($e:expr) => {
-        std::cell::RefCell::new($e)
+        ::std::cell::RefCell::new($e)
     };
     ($e:expr,) => {
         $crate::refcell!($e)
@@ -168,7 +172,7 @@ macro_rules! refcell {
 #[macro_export]
 macro_rules! arc {
     ($e:expr) => {
-        std::sync::Arc::new($e)
+        ::std::sync::Arc::new($e)
     };
     ($e:expr,) => {
         $crate::arc!($e)
@@ -197,7 +201,7 @@ macro_rules! arc {
 #[macro_export]
 macro_rules! mutex {
     ($e:expr) => {
-        std::sync::Mutex::new($e)
+        ::std::sync::Mutex::new($e)
     };
     ($e:expr,) => {
         $crate::mutex!($e)
@@ -226,7 +230,7 @@ macro_rules! mutex {
 #[macro_export]
 macro_rules! rwlock {
     ($e:expr) => {
-        std::sync::RwLock::new($e)
+        ::std::sync::RwLock::new($e)
     };
     ($e:expr,) => {
         $crate::mutex!($e)
@@ -291,7 +295,7 @@ mod tests {
 
         let test1 = String::from("Hello Cow");
         let expected: Cow<str> = Cow::Borrowed(&test1);
-        let test: Cow<str> = cow!(test1);
+        let test: Cow<str> = cow!(&test1);
 
         assert_eq!(expected, test);
 

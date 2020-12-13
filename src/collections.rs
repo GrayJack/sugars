@@ -29,11 +29,11 @@ macro_rules! count {
 /// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 #[macro_export]
 macro_rules! hmap {
-    () => { std::collections::HashMap::new() };
+    () => { ::std::collections::HashMap::new() };
 
     ( $($key: expr => $value: expr),+ $(,)? ) => {{
             const CAP: usize = $crate::count!($($key),*);
-            let mut map = std::collections::HashMap::with_capacity(CAP);
+            let mut map = ::std::collections::HashMap::with_capacity(CAP);
             $(
                 let _ = map.insert($key, $value);
             )+
@@ -60,11 +60,11 @@ macro_rules! hmap {
 /// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
 #[macro_export]
 macro_rules! hset {
-    () => { std::collections::HashSet::new() };
+    () => { ::std::collections::HashSet::new() };
 
     ($($elem: expr),+ $(,)?) => {{
         const CAP: usize = $crate::count!($($elem),*);
-        let mut set = std::collections::HashSet::with_capacity(CAP);
+        let mut set = ::std::collections::HashSet::with_capacity(CAP);
         $(
             let _ = set.insert($elem);
         )+
@@ -94,10 +94,10 @@ macro_rules! hset {
 /// [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html
 #[macro_export]
 macro_rules! btmap {
-    () => { std::collections::BTreeMap::new() };
+    () => { ::std::collections::BTreeMap::new() };
 
     ( $($key: expr => $value: expr),+ $(,)? ) => {{
-        let mut map = std::collections::BTreeMap::new();
+        let mut map = ::std::collections::BTreeMap::new();
         $(
             let _ = map.insert($key, $value);
         )+
@@ -124,10 +124,10 @@ macro_rules! btmap {
 /// [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BTreeSet.html
 #[macro_export]
 macro_rules! btset {
-    () => { std::collections::BTreeSet::new() };
+    () => { ::std::collections::BTreeSet::new() };
 
     ( $($elem: expr),+ $(,)? ) => {{
-        let mut set = std::collections::BTreeSet::new();
+        let mut set = ::std::collections::BTreeSet::new();
         $(
             set.insert($elem);
         )+
@@ -153,17 +153,17 @@ macro_rules! btset {
 /// [`VecDeque`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html
 #[macro_export]
 macro_rules! deque {
-    () => { std::collections::VecDeque::new() };
+    () => { ::std::collections::VecDeque::new() };
 
     ($elem: expr; $n: expr) => {{
-        let mut deque = std::collections::VecDeque::new();
+        let mut deque = ::std::collections::VecDeque::new();
         deque.resize_with($n, || $elem);
         deque
     }};
 
     ( $($elem: expr),+ $(,)? ) => {{
         const CAP: usize = $crate::count!($($elem),*);
-        let mut deque = std::collections::VecDeque::with_capacity(CAP);
+        let mut deque = ::std::collections::VecDeque::with_capacity(CAP);
         $(
             deque.push_back($elem);
         )+
@@ -202,16 +202,16 @@ macro_rules! deque {
 /// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! lkl {
-    () => { std::collections::LinkedList::new() };
+    () => { ::std::collections::LinkedList::new() };
 
     ($elem: expr; $n: expr) => {{
-        let mut lkl = std::collections::LinkedList::new();
+        let mut lkl = ::std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_back($elem));
         lkl
     }};
 
     ( $($elem: expr),+ $(,)? ) => {{
-        let mut lkl = std::collections::LinkedList::new();
+        let mut lkl = ::std::collections::LinkedList::new();
         $(
             lkl.push_back($elem);
         )*
@@ -251,16 +251,16 @@ macro_rules! lkl {
 /// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
 macro_rules! flkl {
-    () => { std::collections::LinkedList::new() };
+    () => { ::std::collections::LinkedList::new() };
 
     ($elem: expr; $n: expr) => {{
-        let mut lkl = std::collections::LinkedList::new();
+        let mut lkl = ::std::collections::LinkedList::new();
         (0..$n).for_each(|_| lkl.push_front($elem));
         lkl
     }};
 
     ( $($elem: expr),+ $(,)? ) => {{
-        let mut lkl = std::collections::LinkedList::new();
+        let mut lkl = ::std::collections::LinkedList::new();
         $(
             lkl.push_front($elem);
         )*
@@ -286,11 +286,11 @@ macro_rules! flkl {
 /// [`BinaryHeap`]: https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html
 #[macro_export]
 macro_rules! bheap {
-    () => { std::collections::BinaryHeap::new() };
+    () => { ::std::collections::BinaryHeap::new() };
 
     ( $($elem: expr),+ $(,)? ) => {{
         const CAP: usize = $crate::count!($($elem),*);
-        let mut bheap = std::collections::BinaryHeap::with_capacity(CAP);
+        let mut bheap = ::std::collections::BinaryHeap::with_capacity(CAP);
         $(
             bheap.push($elem);
         )+

@@ -25,39 +25,39 @@
 macro_rules! dur {
     ($e:literal min) => {{
         let min2sec = $e * 60;
-        std::time::Duration::from_secs(min2sec)
+        ::std::time::Duration::from_secs(min2sec)
     }};
     ($i:ident min) => {{
         let min2sec = $i * 60;
-        std::time::Duration::from_secs(min2sec)
+        ::std::time::Duration::from_secs(min2sec)
     }};
 
     ($e:literal sec) => {
-        std::time::Duration::from_secs($e)
+        ::std::time::Duration::from_secs($e)
     };
     ($i:ident sec) => {
-        std::time::Duration::from_secs($i)
+        ::std::time::Duration::from_secs($i)
     };
 
     ($e:literal nano) => {
-        std::time::Duration::from_nanos($e)
+        ::std::time::Duration::from_nanos($e)
     };
     ($i:ident nano) => {
-        std::time::Duration::from_nanos($i)
+        ::std::time::Duration::from_nanos($i)
     };
 
     ($e:literal micro) => {
-        std::time::Duration::from_micros($e)
+        ::std::time::Duration::from_micros($e)
     };
     ($i:ident micro) => {
-        std::time::Duration::from_micros($i)
+        ::std::time::Duration::from_micros($i)
     };
 
     ($e:literal milli) => {
-        std::time::Duration::from_millis($e)
+        ::std::time::Duration::from_millis($e)
     };
     ($i:ident milli) => {
-        std::time::Duration::from_millis($i)
+        ::std::time::Duration::from_millis($i)
     };
 }
 
@@ -82,49 +82,49 @@ macro_rules! dur {
 macro_rules! sleep {
     ($e:literal min) => {{
         let min2sec = $e * 60;
-        let dur = std::time::Duration::from_secs(min2sec);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_secs(min2sec);
+        ::std::thread::sleep(dur);
     }};
     ($i:ident min) => {{
         let min2sec = $i * 60;
-        let dur = std::time::Duration::from_secs(min2sec);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_secs(min2sec);
+        ::std::thread::sleep(dur);
     }};
 
     ($e:literal sec) => {{
-        let dur = std::time::Duration::from_secs($e);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_secs($e);
+        ::std::thread::sleep(dur);
     }};
     ($i:ident sec) => {{
-        let dur = std::time::Duration::from_secs($i);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_secs($i);
+        ::std::thread::sleep(dur);
     }};
 
     ($e:literal nano) => {{
-        let dur = std::time::Duration::from_nanos($e);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_nanos($e);
+        ::std::thread::sleep(dur);
     }};
     ($i:ident nano) => {{
-        let dur = std::time::Duration::from_nanos($i);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_nanos($i);
+        ::std::thread::sleep(dur);
     }};
 
     ($e:literal micro) => {{
-        let dur = std::time::Duration::from_micros($e);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_micros($e);
+        ::std::thread::sleep(dur);
     }};
     ($i:ident micro) => {{
-        let dur = std::time::Duration::from_micros($i);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_micros($i);
+        ::std::thread::sleep(dur);
     }};
 
     ($e:literal milli) => {{
-        let dur = std::time::Duration::from_millis($e);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_millis($e);
+        ::std::thread::sleep(dur);
     }};
     ($i:ident milli) => {{
-        let dur = std::time::Duration::from_millis($i);
-        std::thread::sleep(dur);
+        let dur = ::std::time::Duration::from_millis($i);
+        ::std::thread::sleep(dur);
     }};
 }
 
@@ -172,8 +172,7 @@ macro_rules! sleep {
 #[macro_export]
 macro_rules! time {
     ($e:expr) => {{
-        use std::time::Instant;
-        let time = Instant::now();
+        let time = ::std::time::Instant::now();
         match $e {
             tmp => {
                 eprintln!("{} {:.6} seconds", stringify!($e), time.elapsed().as_secs_f64());

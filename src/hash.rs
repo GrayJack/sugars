@@ -20,7 +20,7 @@
 #[macro_export]
 macro_rules! hash {
     ($e:expr) => {{
-        use std::{
+        use ::std::{
             collections::hash_map::DefaultHasher,
             hash::{Hash, Hasher},
         };
@@ -30,7 +30,7 @@ macro_rules! hash {
     }};
 
     ($e:expr, $hasher:expr) => {{
-        use std::hash::{Hash, Hasher};
+        use ::std::hash::{Hash, Hasher};
         let mut hasher = $hasher;
         $e.hash(&mut hasher);
         hasher.finish()

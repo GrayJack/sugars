@@ -62,7 +62,7 @@ macro_rules! c {
 #[macro_export]
 macro_rules! cvec {
     ($($tokens: tt)+) => {
-        $crate::c![$($tokens)+].collect::<Vec<_>>()
+        $crate::c![$($tokens)+].collect::<::std::vec::Vec<_>>()
     };
 }
 
@@ -86,7 +86,7 @@ macro_rules! cvec {
 macro_rules! cdeque {
     ($($tokens: tt)+) => {{
         use std::collections::VecDeque;
-        $crate::c![$($tokens)+].collect::<VecDeque<_>>()
+        $crate::c![$($tokens)+].collect::<::std::collections::VecDeque<_>>()
     }};
 }
 
@@ -110,7 +110,7 @@ macro_rules! cdeque {
 macro_rules! clkl {
     ($($tokens: tt)+) => {{
         use std::collections::LinkedList;
-        $crate::c![$($tokens)+].collect::<LinkedList<_>>()
+        $crate::c![$($tokens)+].collect::<::std::collections::LinkedList<_>>()
     }};
 }
 
@@ -134,7 +134,7 @@ macro_rules! clkl {
 macro_rules! cbheap {
     ($($tokens: tt)+) => {{
         use std::collections::BinaryHeap;
-        $crate::c![$($tokens)+].collect::<BinaryHeap<_>>()
+        $crate::c![$($tokens)+].collect::<::std::collections::BinaryHeap<_>>()
     }};
 }
 
@@ -159,7 +159,7 @@ macro_rules! cbheap {
 macro_rules! cmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
         use std::collections::HashMap;
-        $crate::c![ ($key, $value); $($tokens)+ ].collect::<HashMap<_, _>>()
+        $crate::c![ ($key, $value); $($tokens)+ ].collect::<::std::collections::HashMap<_, _>>()
     }};
 }
 
@@ -183,7 +183,7 @@ macro_rules! cmap {
 macro_rules! cset {
     ($($tokens: tt)+) => {{
         use std::collections::HashSet;
-        $crate::c![$($tokens)+].collect::<HashSet<_>>()
+        $crate::c![$($tokens)+].collect::<::std::collections::HashSet<_>>()
     }};
 }
 
@@ -207,8 +207,7 @@ macro_rules! cset {
 #[macro_export]
 macro_rules! cbtmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
-        use std::collections::BTreeMap;
-        $crate::c![ ($key, $value); $($tokens)+ ].collect::<BTreeMap<_, _>>()
+        $crate::c![ ($key, $value); $($tokens)+ ].collect::<::std::collections::BTreeMap<_, _>>()
     }};
 }
 
@@ -231,8 +230,7 @@ macro_rules! cbtmap {
 #[macro_export]
 macro_rules! cbtset {
     ($($tokens: tt)+) => {{
-        use std::collections::BTreeSet;
-        $crate::c![$($tokens)+].collect::<BTreeSet<_>>()
+        $crate::c![$($tokens)+].collect::<::std::collections::BTreeSet<_>>()
     }};
 }
 
