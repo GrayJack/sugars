@@ -9,7 +9,7 @@
 //!     * [**hmap**]: Create a [`HashMap`] from key-value pairs.
 //!     * [**btmap**]: Create a [`BTreeMap`] “ .
 //!     * [**lkl**]: Create a [`LinkedList`] from list of elements.
-//!     * [**flkl**]: Create a [`LinkedList`], but reversed.
+//!     * [**rlkl**]: Create a [`LinkedList`], but reversed.
 //!  * **Macros for `.collect()` comprehensions:**
 //!     * [**c**]: Macro to make lazy Iterator collection comprehensions, others below are
 //!       based on this one.
@@ -59,7 +59,7 @@
 //! assert_eq!(map, map2);
 //! ```
 //!
-//! Usage of **`hset`**, similar to **`bheap`**, **``btset``**, **`deque`**, **`lkl`** and **`flkl`**:
+//! Usage of **`hset`**, similar to **`bheap`**, **``btset``**, **`deque`**, **`lkl`** and **`rlkl`**:
 //! ```rust
 //! use std::collections::HashSet;
 //! use sugars::hset;
@@ -159,7 +159,7 @@
 //! [**hmap**]: hmap
 //! [**btmap**]: btmap
 //! [**lkl**]: lkl
-//! [**flkl**]: flkl
+//! [**rlkl**]: rlkl
 //! [**c**]: c
 //! [**cbheap**]: cbheap
 //! [**cbtmap**]: cbtmap

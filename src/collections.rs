@@ -225,10 +225,10 @@ macro_rules! lkl {
 /// # Example
 ///
 /// ```rust
-/// use sugars::flkl;
+/// use sugars::rlkl;
 ///
 /// # fn main() {
-/// let lkl = flkl!["a", "b"];
+/// let lkl = rlkl!["a", "b"];
 ///
 /// assert!(lkl.contains(&"a"));
 /// assert!(lkl.contains(&"b"));
@@ -238,9 +238,9 @@ macro_rules! lkl {
 ///
 /// When you want to build a [`LinkedList`] with all values with a given default value
 /// ```rust
-/// use sugars::flkl;
+/// use sugars::rlkl;
 /// # fn main() {
-/// let lkl = flkl!["10"; 2];
+/// let lkl = rlkl!["10"; 2];
 /// let mut iter = lkl.iter();
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(Some(&"10"), iter.next());
@@ -250,7 +250,7 @@ macro_rules! lkl {
 ///
 /// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 #[macro_export]
-macro_rules! flkl {
+macro_rules! rlkl {
     () => { ::std::collections::LinkedList::new() };
 
     ($elem: expr; $n: expr) => {{
@@ -399,24 +399,24 @@ mod tests {
     }
 
     #[test]
-    fn flkl() {
+    fn rlkl() {
         use std::collections::LinkedList;
         let mut expected = LinkedList::new();
         expected.push_front("a");
         expected.push_front("b");
-        let lkl = flkl!["a", "b"];
+        let lkl = rlkl!["a", "b"];
 
         assert!(lkl.contains(&"a"));
         assert!(lkl.contains(&"b"));
         assert!(!lkl.contains(&"c"));
         assert_eq!(expected, lkl);
 
-        const LKL2: LinkedList<&str> = flkl![];
+        const LKL2: LinkedList<&str> = rlkl![];
         assert!(LKL2.is_empty());
     }
 
     #[test]
-    fn flkl_repeat() {
+    fn rlkl_repeat() {
         use std::collections::LinkedList;
         let expected = {
             let mut l = LinkedList::new();
@@ -424,7 +424,7 @@ mod tests {
             l.push_front("a");
             l
         };
-        let test = flkl!["a"; 2];
+        let test = rlkl!["a"; 2];
 
         assert_eq!(expected, test);
     }
@@ -458,7 +458,7 @@ mod tests {
         btset! {1,};
         deque![1,];
         lkl![1,];
-        flkl![1,];
+        rlkl![1,];
         bheap![1,];
     }
 }
