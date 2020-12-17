@@ -2,6 +2,7 @@
 
 ## Unreleased
  - Change the behaviour of the `cow!` macro
+ - Renaming `flkl` macro to `rlkl`.
 
 ## 2.0.0
  - Change the behavior of the `cow!` macro
@@ -17,14 +18,14 @@
 
 ## 1.1.0
  - Add for all comprehensions a Implicit-`for` (or Just-`in`) version
- - Add new version of `lkl` and `flkl` that works almost like array init syntax (`[$init_elem; $n_times]`)
+ - Add new version of `lkl` and `fklk` (old `rlkl`) that works almost like array init syntax (`[$init_elem; $n_times]`)
 
 ## 1.0.0
  - Remove nightly requirements.
 
 ## 0.5.0
  - Add comprehension macros `cbtmap` and `cbtset` mostly for completeness
- - Add macros `lkl` and `flkl` that return a `LinkedList`, the fist pushing to back and the other to the front
+ - Add macros `lkl` and `fklk` (old `rlkl`) that return a `LinkedList`, the fist pushing to back and the other to the front
 
 ## 0.4.0
  - The macro `mutex` now return a tuple of `Mutex` values if 2 or more expression are passed to it

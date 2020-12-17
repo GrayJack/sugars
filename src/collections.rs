@@ -1,4 +1,4 @@
-//! Module for collections literal macros
+//! Module for collections literal macros.
 
 #[doc(hidden)]
 #[macro_export]
@@ -26,7 +26,7 @@ macro_rules! count {
 /// # }
 /// ```
 ///
-/// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
+/// [`HashMap`]: std::collections::HashMap
 #[macro_export]
 macro_rules! hmap {
     () => { ::std::collections::HashMap::new() };
@@ -57,7 +57,7 @@ macro_rules! hmap {
 /// # }
 /// ```
 ///
-/// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
+/// [`HashSet`]: std::collections::HashMap
 #[macro_export]
 macro_rules! hset {
     () => { ::std::collections::HashSet::new() };
@@ -91,7 +91,7 @@ macro_rules! hset {
 /// # }
 /// ```
 ///
-/// [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html
+/// [`BTreeMap`]: std::collections::BTreeMap
 #[macro_export]
 macro_rules! btmap {
     () => { ::std::collections::BTreeMap::new() };
@@ -118,10 +118,15 @@ macro_rules! btmap {
 /// assert!(set.contains("a"));
 /// assert!(set.contains("b"));
 /// assert!(!set.contains("c"));
+///
+/// let mut iter = set.iter();
+/// assert_eq!(Some(&"a"), iter.next());
+/// assert_eq!(Some(&"b"), iter.next());
+/// assert_eq!(None, iter.next());
 /// # }
 /// ```
 ///
-/// [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BTreeSet.html
+/// [`BTreeSet`]: std::collections::BTreeSet
 #[macro_export]
 macro_rules! btset {
     () => { ::std::collections::BTreeSet::new() };
@@ -142,6 +147,7 @@ macro_rules! btset {
 /// ```rust
 /// use sugars::deque;
 /// # use std::collections::VecDeque;
+///
 /// # fn main() {
 /// let deque = deque![1, 2, 3, 4];
 /// let deque2: VecDeque<_> = (1..=4).collect();
@@ -150,7 +156,7 @@ macro_rules! btset {
 /// # }
 /// ```
 ///
-/// [`VecDeque`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html
+/// [`VecDeque`]: std::collections::VecDeque
 #[macro_export]
 macro_rules! deque {
     () => { ::std::collections::VecDeque::new() };
@@ -171,8 +177,7 @@ macro_rules! deque {
     }};
 }
 
-/// Create a [`LinkedList`] from a list of elements. It pushes the element to the back of
-/// the list.
+/// Create a [`LinkedList`] from a list of elements.
 ///
 /// # Examples
 ///
@@ -184,22 +189,29 @@ macro_rules! deque {
 /// assert!(lkl.contains(&"a"));
 /// assert!(lkl.contains(&"b"));
 /// assert!(!lkl.contains(&"c"));
+///
+/// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"a"), iter.next());
+/// assert_eq!(Some(&"b"), iter.next());
+/// assert_eq!(None, iter.next());
 /// # }
 /// ```
 ///
-/// When you want to build a [`LinkedList`] with all values with a given default value
+/// If you want to build a [`LinkedList`] with repeated values:
 /// ```rust
 /// use sugars::lkl;
 /// # fn main() {
-/// let lkl = lkl!["10"; 2];
+/// let lkl = lkl!["10"; 3];
+///
 /// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(None, iter.next());
 /// # }
 /// ```
 ///
-/// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
+/// [`LinkedList`]: std::collections::LinkedList
 #[macro_export]
 macro_rules! lkl {
     () => { ::std::collections::LinkedList::new() };
@@ -219,38 +231,43 @@ macro_rules! lkl {
     }};
 }
 
-/// Create a [`LinkedList`] from a list of elements. It pushes the element to the start of
-/// the list.
+/// Create a reversed [`LinkedList`] from a list of elements.
 ///
-/// # Example
+/// # Examples
 ///
 /// ```rust
-/// use sugars::flkl;
-///
+/// use sugars::rlkl;
 /// # fn main() {
-/// let lkl = flkl!["a", "b"];
+/// let lkl = rlkl!["a", "b"];
 ///
 /// assert!(lkl.contains(&"a"));
 /// assert!(lkl.contains(&"b"));
 /// assert!(!lkl.contains(&"c"));
+///
+/// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"b"), iter.next());
+/// assert_eq!(Some(&"a"), iter.next());
+/// assert_eq!(None, iter.next());
 /// # }
 /// ```
 ///
-/// When you want to build a [`LinkedList`] with all values with a given default value
+/// If you want to build a [`LinkedList`] with repeated values:
 /// ```rust
-/// use sugars::flkl;
+/// use sugars::rlkl;
 /// # fn main() {
-/// let lkl = flkl!["10"; 2];
+/// let lkl = rlkl!["10"; 3];
+///
 /// let mut iter = lkl.iter();
+/// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(Some(&"10"), iter.next());
 /// assert_eq!(None, iter.next());
 /// # }
 /// ```
 ///
-/// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
+/// [`LinkedList`]: std::collections::LinkedList
 #[macro_export]
-macro_rules! flkl {
+macro_rules! rlkl {
     () => { ::std::collections::LinkedList::new() };
 
     ($elem: expr; $n: expr) => {{
@@ -283,7 +300,7 @@ macro_rules! flkl {
 /// # }
 /// ```
 ///
-/// [`BinaryHeap`]: https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html
+/// [`BinaryHeap`]: std::collections::BinaryHeap
 #[macro_export]
 macro_rules! bheap {
     () => { ::std::collections::BinaryHeap::new() };
@@ -399,24 +416,24 @@ mod tests {
     }
 
     #[test]
-    fn flkl() {
+    fn rlkl() {
         use std::collections::LinkedList;
         let mut expected = LinkedList::new();
         expected.push_front("a");
         expected.push_front("b");
-        let lkl = flkl!["a", "b"];
+        let lkl = rlkl!["a", "b"];
 
         assert!(lkl.contains(&"a"));
         assert!(lkl.contains(&"b"));
         assert!(!lkl.contains(&"c"));
         assert_eq!(expected, lkl);
 
-        const LKL2: LinkedList<&str> = flkl![];
+        const LKL2: LinkedList<&str> = rlkl![];
         assert!(LKL2.is_empty());
     }
 
     #[test]
-    fn flkl_repeat() {
+    fn rlkl_repeat() {
         use std::collections::LinkedList;
         let expected = {
             let mut l = LinkedList::new();
@@ -424,7 +441,7 @@ mod tests {
             l.push_front("a");
             l
         };
-        let test = flkl!["a"; 2];
+        let test = rlkl!["a"; 2];
 
         assert_eq!(expected, test);
     }
@@ -458,7 +475,7 @@ mod tests {
         btset! {1,};
         deque![1,];
         lkl![1,];
-        flkl![1,];
+        rlkl![1,];
         bheap![1,];
     }
 }

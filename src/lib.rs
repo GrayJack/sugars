@@ -1,15 +1,20 @@
-//! A collection of macros in Rust to make tasks easier and less verbose.
+//! [![Documentation](https://docs.rs/sugars/badge.svg)](https://docs.rs/sugars)
+//! [![License](https://img.shields.io/github/license/GrayJack/sugars.svg)](https://github.com/GrayJack/sugars/blob/master/LICENSE)
+//!
+//! # Sugars - Nice macros for better writing
+//!
+//! This crate provides a collection of useful macros to make tasks easier.
 //!
 //! ## What it has to offer?
-//!  * **Macros for `std::collections`:**
-//!     * [**deque**]: Create a [`VecDeque`] from list of elements.
-//!     * [**hset**]: Create a [`HashSet`] “ .
-//!     * [**btset**]: Create a [`BTreeSet`] “ .
-//!     * [**bheap**]: Create a [`BinaryHeap`] “ .
-//!     * [**hmap**]: Create a [`HashMap`] from key-value pairs.
-//!     * [**btmap**]: Create a [`BTreeMap`] “ .
-//!     * [**lkl**]: Create a [`LinkedList`] from list of elements.
-//!     * [**flkl**]: Create a [`LinkedList`], but reversed.
+//!  * **Macros for [`std::collections`]:**
+//!     * [**deque**]: Create [`VecDeque`] from list of elements.
+//!     * [**hset**]: Create [`HashSet`] “ .
+//!     * [**btset**]: Create [`BTreeSet`] “ .
+//!     * [**bheap**]: Create [`BinaryHeap`] “ .
+//!     * [**hmap**]: Create [`HashMap`] from key-value pairs.
+//!     * [**btmap**]: Create [`BTreeMap`] “ .
+//!     * [**lkl**]: Create [`LinkedList`] from list of elements.
+//!     * [**rlkl**]: Create [`LinkedList`], but reversed.
 //!  * **Macros for `.collect()` comprehensions:**
 //!     * [**c**]: Macro to make lazy Iterator collection comprehensions, others below are
 //!       based on this one.
@@ -34,59 +39,81 @@
 //!     * [**sleep**]: Makes current thread sleep an amount following a time pattern.**²**
 //!     * [**time**]: Print out the time it took to execute a given expression in seconds.
 //!
-//!  1. Also can return a tuple if is given more than one parameter
-//!  2. A time pattern accepts _mim_, _sec_, _nano_, _micro_ or _milli_.
+//!  1. Returns a tuple if multiple parameters are given.
+//!  2. Accepted time patterns are: `min`, `sec`, `nano`, `micro` and `milli`.
 //!
 //! ## Examples
-//! ### std::collections
-//! Usage of **`boxed`**, similar to **`arc`**, **`cell`**, **`cow`**, **`mutex`** and **`refcell`**:
+//! ### `std::collections`
+//! Usage of **`boxed`**, same as **`arc`**, **`cell`**, **`cow`**, **`mutex`** and **`refcell`**:
 //! ```rust
 //! use sugars::boxed;
 //! assert_eq!(Box::new(10), boxed!(10));
 //! ```
 //!
-//! Usage of **`hmap`**, similar to **`btmap`**:
+//! Usage of **`hmap`**, same as **`btmap`**:
 //! ```rust
 //! use std::collections::HashMap;
 //! use sugars::hmap;
 //!
-//! let mut map = HashMap::new();
-//! map.insert("1", 1);
-//! map.insert("2", 2);
+//! let map = hmap! {"1" => 1, "2" => 2, "3" => 3};
 //!
-//! let map2 = hmap! {"1" => 1, "2" => 2};
+//! let mut map2 = HashMap::new();
+//! map2.insert("1", 1);
+//! map2.insert("2", 2);
+//! map2.insert("3", 3);
 //!
 //! assert_eq!(map, map2);
 //! ```
 //!
-//! Usage of **`hset`**, similar to **`bheap`**, **``btset``**, **`deque`**, **`lkl`** and **`flkl`**:
+//! Usage of **`hset`**, same as **``btset``**:
 //! ```rust
 //! use std::collections::HashSet;
 //! use sugars::hset;
 //!
-//! let mut set = HashSet::new();
-//! set.insert(1);
-//! set.insert(2);
+//! let set = hset! {1, 2, 3};
 //!
-//! let set2 = hset! {1, 2};
+//! let mut set2 = HashSet::new();
+//! set2.insert(1);
+//! set2.insert(2);
+//! set2.insert(3);
 //!
 //! assert_eq!(set, set2);
 //! ```
 //!
-//! ### Comprenhensions
-//! **`c`**: Notice that it generates a lazy Iterator, so the user has to deal with that
+//! Usage of **`deque`**, same as **`bheap`**, **`lkl`** and **`rlkl`**:
+//! ```rust
+//! use sugars::deque;
+//! use std::collections::VecDeque;
+//! let deque = deque![1, 2, 3];
 //!
-//! This has the following syntax: `c![<expr>; <<pattern> in <iterator>, >...[, if <condition>]]`
+//! let mut deque2 = VecDeque::new();
+//! deque2.push_back(1);
+//! deque2.push_back(2);
+//! deque2.push_back(3);
+//!
+//! assert_eq!(deque2, deque);
+//! ```
+//!
+//! ### Comprenhensions
+//! Usage of **`c!`**: It follows the syntax: `c![<expr>; <<pattern> in <iterator>, >...[, if <condition>]]`.
+//!
+//! Note that it generates a lazy _Iterator_ that needs to be dealt with.
 //! ```rust
 //! use std::collections::HashSet;
 //! use sugars::c;
 //!
 //! let vec = c![x; x in 0..10].collect::<Vec<_>>();
 //! let set = c![i*2; &i in vec.iter()].collect::<HashSet<_>>();
-//! let vec2 = c![i+j; i in vec.into_iter(), j in set.iter(), if i%2 == 0 && j%2 != 0].collect::<Vec<_>>();
+//! // A more complex one
+//! let vec = c![i+j; i in vec.into_iter(), j in set.iter(), if i%2 == 0 && j%2 != 0].collect::<Vec<_>>();
+//!
+//! // Or using type hints
+//! let vec: Vec<_> = c![x; x in 0..10].collect();
+//! let set: HashSet<_> = c![i*2; &i in vec.iter()].collect();
+//! let vec: Vec<_> = c![i+j; i in vec.into_iter(), j in set.iter(), if i%2 == 0 && j%2 != 0].collect();
 //! ```
 //!
-//! Usage of **`cvec`**, similar to **`cvec`**, **`cdeque`**, **`clkl`** and **`cbheap`**:
+//! Usage of **`cvec`**, same as **`cdeque`**, **`clkl`** and **`cbheap`**:
 //! ```rust
 //! use sugars::cvec;
 //!
@@ -97,7 +124,7 @@
 //! cvec![x; x in 0..10, if x % 2 == 0];
 //! ```
 //!
-//! Usage of **`cset`**, similar to **`cbtset`**:
+//! Usage of **`cset`**, same as **`cbtset`**:
 //! ```rust
 //! use sugars::cset;
 //!
@@ -108,7 +135,7 @@
 //! cset! {x; x in 0..10, if x % 2 == 0};
 //! ```
 //!
-//! Usage of **`cmap`**, similar to **`cbtmap`**:
+//! Usage of **`cmap`**, same as **`cbtmap`**:
 //! ```rust
 //! use sugars::cmap;
 //!
@@ -120,8 +147,6 @@
 //! ```
 //!
 //! ### Time/Duration:
-//! **time**
-//!
 //! Usage of **`dur`** and **`sleep`**:
 //! ```rust
 //! use sugars::{dur, sleep};
@@ -159,7 +184,7 @@
 //! [**hmap**]: hmap
 //! [**btmap**]: btmap
 //! [**lkl**]: lkl
-//! [**flkl**]: flkl
+//! [**rlkl**]: rlkl
 //! [**c**]: c
 //! [**cbheap**]: cbheap
 //! [**cbtmap**]: cbtmap
@@ -180,22 +205,21 @@
 //! [**sleep**]: sleep
 //! [**time**]: time
 //!
-//! [`BinaryHeap`]: https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html
-//! [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html
-//! [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BTreeSet.html
-//! [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
-//! [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
-//! [`VecDeque`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html
-//! [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
-//! [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
-//! [`Cell`]: https://doc.rust-lang.org/std/cell/struct.Cell.html
-//! [`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
-//! [`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
-//! [`RefCell`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
-//! [`RwLock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
-//! [`Duration`]: https://doc.rust-lang.org/std/time/struct.Duration.html
-//! [`Cow`]: https://doc.rust-lang.org/std/borrow/enum.Cow.html
-//!
+//! [`BinaryHeap`]: std::collections::BinaryHeap
+//! [`BTreeMap`]: std::collections::BTreeMap
+//! [`BTreeSet`]: std::collections::BTreeSet
+//! [`HashMap`]: std::collections::HashMap
+//! [`HashSet`]: std::collections::HashSet
+//! [`VecDeque`]: std::collections::VecDeque
+//! [`LinkedList`]: std::collections::LinkedList
+//! [`Arc`]: std::sync::Arc
+//! [`Cell`]: std::cell::Cell
+//! [`Mutex`]: std::sync::Mutex
+//! [`Rc`]: std::rc::Rc
+//! [`RefCell`]: std::cell::RefCell
+//! [`RwLock`]: std::sync::RwLock
+//! [`Duration`]: std::time::Duration
+//! [`Cow`]: std::borrow::Cow
 
 mod collections;
 mod comprehension;

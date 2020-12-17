@@ -158,7 +158,6 @@ macro_rules! cbheap {
 #[macro_export]
 macro_rules! cmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
-        use std::collections::HashMap;
         $crate::c![ ($key, $value); $($tokens)+ ].collect::<::std::collections::HashMap<_, _>>()
     }};
 }
@@ -182,7 +181,6 @@ macro_rules! cmap {
 #[macro_export]
 macro_rules! cset {
     ($($tokens: tt)+) => {{
-        use std::collections::HashSet;
         $crate::c![$($tokens)+].collect::<::std::collections::HashSet<_>>()
     }};
 }
