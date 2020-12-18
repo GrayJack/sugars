@@ -292,11 +292,13 @@ macro_rules! rlkl {
 /// ```rust
 /// use sugars::bheap;
 /// # fn main() {
-/// let heap = bheap![1, 2, 3, 4];
+/// let mut heap = bheap![4, 1, 3, 2];
 ///
-/// for i in heap {
-///     println!("{}", i);
-/// }
+/// assert_eq!(Some(4), heap.pop());
+/// assert_eq!(Some(3), heap.pop());
+/// assert_eq!(Some(2), heap.pop());
+/// assert_eq!(Some(1), heap.pop());
+/// assert_eq!(None, heap.pop());
 /// # }
 /// ```
 ///
