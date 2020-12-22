@@ -42,7 +42,7 @@ macro_rules! boxed {
 /// # }
 /// ```
 ///
-/// [`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html
+/// [`Rc`]: ::std::rc::Rc
 #[macro_export]
 macro_rules! rc {
     ($e:expr) => {
@@ -89,6 +89,9 @@ macro_rules! rc {
 /// ```
 ///
 /// [`Cow`]: ::std::borrow::Cow
+/// [`Cow::from`]: ::std::borrow::Cow::from
+/// [`Cow::Borrowed`]: ::std::borrow::Cow::Borrowed
+/// [`Cow::Owned`]: ::std::borrow::Cow::Owned
 #[macro_export]
 macro_rules! cow {
     ($e:expr) => {
@@ -114,7 +117,7 @@ macro_rules! cow {
 /// assert_eq!(Cell::new(10), cell!(10));
 /// ```
 ///
-/// [`Cell`]: https://doc.rust-lang.org/std/cell/struct.Cell.html
+/// [`Cell`]: ::std::cell::Cell
 #[macro_export]
 macro_rules! cell {
     ($e:expr) => {
@@ -141,7 +144,7 @@ macro_rules! cell {
 /// # }
 /// ```
 ///
-/// [`RefCell`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html
+/// [`RefCell`]: ::std::cell::RefCell
 #[macro_export]
 macro_rules! refcell {
     ($e:expr) => {
@@ -168,7 +171,7 @@ macro_rules! refcell {
 /// # }
 /// ```
 ///
-/// [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
+/// [`Arc`]: ::std::sync::Arc
 #[macro_export]
 macro_rules! arc {
     ($e:expr) => {
@@ -197,7 +200,7 @@ macro_rules! arc {
 /// # }
 /// ```
 ///
-/// [`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
+/// [`Mutex`]: ::std::sync::Mutex
 #[macro_export]
 macro_rules! mutex {
     ($e:expr) => {
@@ -226,7 +229,7 @@ macro_rules! mutex {
 /// # }
 /// ```
 ///
-/// [`RwLock`]: https://doc.rust-lang.org/std/sync/struct.RwLock.html
+/// [`RwLock`]: ::std::sync::RwLock
 #[macro_export]
 macro_rules! rwlock {
     ($e:expr) => {

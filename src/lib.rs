@@ -205,21 +205,21 @@
 //! [**sleep**]: sleep
 //! [**time**]: time
 //!
-//! [`BinaryHeap`]: std::collections::BinaryHeap
-//! [`BTreeMap`]: std::collections::BTreeMap
-//! [`BTreeSet`]: std::collections::BTreeSet
-//! [`HashMap`]: std::collections::HashMap
-//! [`HashSet`]: std::collections::HashSet
-//! [`VecDeque`]: std::collections::VecDeque
-//! [`LinkedList`]: std::collections::LinkedList
-//! [`Arc`]: std::sync::Arc
-//! [`Cell`]: std::cell::Cell
-//! [`Mutex`]: std::sync::Mutex
-//! [`Rc`]: std::rc::Rc
-//! [`RefCell`]: std::cell::RefCell
-//! [`RwLock`]: std::sync::RwLock
-//! [`Duration`]: std::time::Duration
-//! [`Cow`]: std::borrow::Cow
+//! [`BinaryHeap`]: ::std::collections::BinaryHeap
+//! [`BTreeMap`]: ::std::collections::BTreeMap
+//! [`BTreeSet`]: ::std::collections::BTreeSet
+//! [`HashMap`]: ::std::collections::HashMap
+//! [`HashSet`]: ::std::collections::HashSet
+//! [`VecDeque`]: ::std::collections::VecDeque
+//! [`LinkedList`]: ::std::collections::LinkedList
+//! [`Arc`]: ::std::sync::Arc
+//! [`Cell`]: ::std::cell::Cell
+//! [`Mutex`]: ::std::sync::Mutex
+//! [`Rc`]: ::std::rc::Rc
+//! [`RefCell`]: ::std::cell::RefCell
+//! [`RwLock`]: ::std::sync::RwLock
+//! [`Duration`]: ::std::time::Duration
+//! [`Cow`]: ::std::borrow::Cow
 
 mod collections;
 mod comprehension;

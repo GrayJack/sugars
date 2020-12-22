@@ -81,7 +81,7 @@ macro_rules! cvec {
 /// # }
 /// ```
 ///
-/// [`VecDeque`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html
+/// [`VecDeque`]: ::std::collections::VecDeque
 #[macro_export]
 macro_rules! cdeque {
     ($($tokens: tt)+) => {{
@@ -105,7 +105,7 @@ macro_rules! cdeque {
 /// # }
 /// ```
 ///
-/// [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
+/// [`LinkedList`]: ::std::collections::LinkedList
 #[macro_export]
 macro_rules! clkl {
     ($($tokens: tt)+) => {{
@@ -129,7 +129,7 @@ macro_rules! clkl {
 /// # }
 /// ```
 ///
-/// [`BinaryHeap`]: https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html
+/// [`BinaryHeap`]: ::std::collections::BinaryHeap
 #[macro_export]
 macro_rules! cbheap {
     ($($tokens: tt)+) => {{
@@ -154,7 +154,7 @@ macro_rules! cbheap {
 /// # }
 /// ```
 ///
-/// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
+/// [`HashMap`]: ::std::collections::HashMap
 #[macro_export]
 macro_rules! cmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
@@ -177,7 +177,7 @@ macro_rules! cmap {
 /// # }
 /// ```
 ///
-/// [`HashSet`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html
+/// [`HashSet`]: ::std::collections::HashSet
 #[macro_export]
 macro_rules! cset {
     ($($tokens: tt)+) => {{
@@ -201,7 +201,7 @@ macro_rules! cset {
 /// # }
 /// ```
 ///
-/// [`BTreeMap`]: https://doc.rust-lang.org/std/collections/struct.BtreeMap.html
+/// [`BTreeMap`]: ::std::collections::BtreeMap
 #[macro_export]
 macro_rules! cbtmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
@@ -224,7 +224,7 @@ macro_rules! cbtmap {
 /// # }
 /// ```
 ///
-/// [`BTreeSet`]: https://doc.rust-lang.org/std/collections/struct.BtreeSet.html
+/// [`BTreeSet`]: ::std::collections::BtreeSet
 #[macro_export]
 macro_rules! cbtset {
     ($($tokens: tt)+) => {{

@@ -20,7 +20,7 @@
 /// # }
 /// ```
 ///
-/// [`Duration`]: https://doc.rust-lang.org/std/time/struct.Duration.html
+/// [`Duration`]: ::std::time::Duration
 #[macro_export]
 macro_rules! dur {
     ($e:literal min) => {{

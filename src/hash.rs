@@ -16,7 +16,7 @@
 /// # }
 /// ```
 ///
-/// [`HashMap`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
+/// [`HashMap`]: ::std::collections::HashMap
 #[macro_export]
 macro_rules! hash {
     ($e:expr) => {{
