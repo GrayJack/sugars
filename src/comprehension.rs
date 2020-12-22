@@ -201,7 +201,7 @@ macro_rules! cset {
 /// # }
 /// ```
 ///
-/// [`BTreeMap`]: ::std::collections::BtreeMap
+/// [`BTreeMap`]: ::std::collections::BTreeMap
 #[macro_export]
 macro_rules! cbtmap {
     ($key:expr => $value:expr; $($tokens: tt)+) => {{
@@ -224,7 +224,7 @@ macro_rules! cbtmap {
 /// # }
 /// ```
 ///
-/// [`BTreeSet`]: ::std::collections::BtreeSet
+/// [`BTreeSet`]: ::std::collections::BTreeSet
 #[macro_export]
 macro_rules! cbtset {
     ($($tokens: tt)+) => {{
