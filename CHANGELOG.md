@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 3.0.0
+
 - [BREAKING] Change the behavior of the `cow!` macro
 - [BREAKING] Renaming `flkl` macro to `rlkl`.
 
