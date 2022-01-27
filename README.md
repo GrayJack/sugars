@@ -158,7 +158,7 @@ This software requires Rust version equal or above 1.39.0.
 ## LICENSE
 This software is licensed under the [MIT Public License](./LICENSE).
 
-[**deque**]: https://docs.rs/sugars/latest/sugars/macro.bheap.html
+[**deque**]: https://docs.rs/sugars/latest/sugars/macro.deque.html
 [**hset**]: https://docs.rs/sugars/latest/sugars/macro.hset.html
 [**btset**]: https://docs.rs/sugars/latest/sugars/macro.btset.html
 [**bheap**]: https://docs.rs/sugars/latest/sugars/macro.bheap.html
