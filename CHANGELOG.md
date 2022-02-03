@@ -1,6 +1,8 @@
 # Changes
 
-## Unreleased
+## 3.0.1
+
+- Fix typo on the `README.md`
 
 ## 3.0.0
 
