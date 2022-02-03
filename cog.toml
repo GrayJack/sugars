@@ -1,0 +1,21 @@
+pre_bump_hooks = [
+    "cargo test",
+    "cargo clippy",
+    "cargo build",
+    "cargo fmt --all",
+    "cargo bump {{version}}",
+]
+post_bump_hooks = [
+    "git push",
+    "cargo publish"
+]
+
+[commit_types]
+
+[changelog]
+path = "CHANGELOG.md"
+authors = [
+    { signature = "Eric Shimizu Karbstein", username = "GrayJack" },
+]
+
+[bump_profiles]
