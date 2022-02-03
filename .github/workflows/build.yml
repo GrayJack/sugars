@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        rust: [1.39.0, 1.40.0, 1.41.0, stable, beta, nightly]
+        rust: [1.39.0, stable, beta, nightly]
     steps:
     - uses: actions/checkout@v2
     - uses: actions-rs/toolchain@v1
@@ -16,7 +16,6 @@ jobs:
         toolchain: ${{ matrix.rust }}
         override: true
         profile: minimal
-        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
@@ -27,7 +26,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest]
-        rust: [1.39.0, 1.40.0, 1.41.0, stable, beta, nightly]
+        rust: [1.39.0, stable, beta, nightly]
     steps:
     - uses: actions/checkout@v2
     - uses: actions-rs/toolchain@v1
@@ -35,7 +34,6 @@ jobs:
         toolchain: ${{ matrix.rust }}
         override: true
         profile: minimal
-        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
@@ -46,7 +44,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        rust: [1.39.0, 1.40.0, 1.41.0, stable, beta, nightly]
+        rust: [1.39.0, stable, beta, nightly]
     steps:
     - uses: actions/checkout@v2
     - uses: actions-rs/toolchain@v1
@@ -54,7 +52,6 @@ jobs:
         toolchain: ${{ matrix.rust }}
         override: true
         profile: minimal
-        components: clippy
     - name: Check compilation
       run: cargo check --verbose
     - name: Run tests
